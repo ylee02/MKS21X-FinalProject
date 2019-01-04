@@ -2,8 +2,10 @@ public class Player extends Entity implements Alive {
   private int luck;
   private int cons;
   private int level;
+  private int health;
+  private int strength;
 
-  public player() {
+  public Player() {
     luck = 1;
     cons = 1;
     level = 1;
@@ -33,5 +35,24 @@ public class Player extends Entity implements Alive {
 
   public void levelUp() {
     level += 1;
+  }
+
+  public void die(){
+  }
+
+  public int getHealth(){
+    return health;
+  }
+
+  public int getStrength(){
+    return strength;
+  }
+
+  public void setHealth(int health){
+    this.health = health;
+  }
+  
+  public void setStrength(int strength){
+    this.strength = strength;
   }
 }
