@@ -1,4 +1,4 @@
-public class entity {
+public class Entity {
   private int ID;
   private int x;
   private int y;
