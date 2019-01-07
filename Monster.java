@@ -1,4 +1,4 @@
-public class monster extends entity implements Alive{
+public class Monster extends Entity implements Alive{
   private String type;
   private int gold;
   private int health;
