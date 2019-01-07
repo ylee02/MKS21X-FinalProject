@@ -6,14 +6,14 @@ public class Monster extends Entity implements Alive{
 
   public monster(String type, int x, int y){
     this.type = type;
-    setX(x);
-    setY(y);
+    this.setX(x);
+    this.setY(y);
   }
 
   public monster(String type, int x, int y, int gold){
     this.type = type;
-    setX(x);
-    setY(y);
+    this.setX(x);
+    this.setY(y);
     this.gold = gold;
   }
 
