@@ -41,7 +41,6 @@ public class TerminalDemo {
 
     TerminalSize terminalsize = terminal.getTerminalSize();
 		int rows = terminalsize.getRows();
-		String rowsString = "" + rows;
     int columns = terminalsize.getColumns();
     terminal.moveCursor(x,y);
     /*for (int i = 0; i < columns; i++){
@@ -85,6 +84,8 @@ public class TerminalDemo {
 			}
 			y = y + 1;
 		}
+		terminal.moveCursor(1, 1);
+		terminal.putCharacter('@');
     while (running){
       Key key = terminal.readInput();
       if (key != null){
