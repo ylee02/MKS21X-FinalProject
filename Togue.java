@@ -5,7 +5,7 @@ public class Togue {
 
   public void getLoot() {
     Item i = new Item(Math.abs(Random.nextInt()%(floor * 2)),  Math.abs(Random.nextInt()%(floor * 2));
-    dropLoot();
+    dropLoot(i);
   }
 
 
