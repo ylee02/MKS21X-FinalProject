@@ -23,6 +23,8 @@ public class Monster extends Entity implements Alive{
   }
 
   public void dropLoot(){
+    Drop item = new Drop(getX(), getY())
+    
   }
 
   public int getGold(){
