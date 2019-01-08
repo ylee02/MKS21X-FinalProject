@@ -1,4 +1,4 @@
-public class monster extends entity implements Alive{
+public class Monster extends Entity implements Alive{
   private String type;
   private int gold;
   private int health;
@@ -6,14 +6,14 @@ public class monster extends entity implements Alive{
 
   public monster(String type, int x, int y){
     this.type = type;
-    setX(x);
-    setY(y);
+    this.setX(x);
+    this.setY(y);
   }
 
   public monster(String type, int x, int y, int gold){
     this.type = type;
-    setX(x);
-    setY(y);
+    this.setX(x);
+    this.setY(y);
     this.gold = gold;
   }
 
@@ -22,7 +22,9 @@ public class monster extends entity implements Alive{
     setY(getY() + newY);
   }
 
-  public void dropLoot(){
+  public void dropLoot(Item i){
+    Drop item = new Drop(getX(), getY(), i)
+
   }
 
   public int getGold(){
