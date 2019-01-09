@@ -39,10 +39,13 @@ public class TerminalDemo {
 		long tStart = System.currentTimeMillis();
 		long lastSecond = 0;
 
-    TerminalSize terminalsize = terminal.getTerminalSize();
+		TerminalSize terminalsize = terminal.getTerminalSize();
+		//terminalsize.setColumns(10);
+		//terminalsize.setRows(10);
 		int rows = terminalsize.getRows();
-    int columns = terminalsize.getColumns();
-    terminal.moveCursor(x,y);
+		String rowsString = "" + rows;
+    	int columns = terminalsize.getColumns();
+    	terminal.moveCursor(x,y);
     /*for (int i = 0; i < columns; i++){
 			x = x + 1;
 			terminal.moveCursor(x,y);
@@ -69,11 +72,11 @@ public class TerminalDemo {
 			for (int r= 0; r < columns; r++){
 					terminal.moveCursor(x,y);
 					if (x == 0 || x== columns - 1){
-						terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
 						terminal.putCharacter('|');
 					}else{
 						if (y == 0 || y == rows - 1){
-								terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+								terminal.applyForegroundColor(Terminal.Color.GREEN);
 								terminal.putCharacter('-');
 						}else{
 								terminal.applyForegroundColor(Terminal.Color.WHITE);
@@ -85,16 +88,63 @@ public class TerminalDemo {
 			y = y + 1;
 		}
 		terminal.moveCursor(1, 1);
+		x = 1;
+		y = 1;
 		terminal.putCharacter('@');
     while (running){
-      Key key = terminal.readInput();
-      if (key != null){
-        if (key.getKind() == Key.Kind.Escape) {
-        	terminal.exitPrivateMode();
-        	running = false;
-      	}
-    	}
+      	Key key = terminal.readInput();
+		if (key != null){
+        	if (key.getKind() == Key.Kind.Escape) {
+        		terminal.exitPrivateMode();
+				running = false;
+			}
+
+			if (key.getKind() == Key.Kind.ArrowRight) {
+				if (x != columns - 2){
+					terminal.applyForegroundColor(Terminal.Color.WHITE);
+					terminal.moveCursor(x,y);
+					terminal.putCharacter('.');
+					terminal.moveCursor(x + 1,y);
+					terminal.applyForegroundColor(Terminal.Color.GREEN);
+					terminal.putCharacter('@');
+					x++;
+				}
+			}
+			if (key.getKind() == Key.Kind.ArrowLeft) {
+				if (x != 1){
+					terminal.applyForegroundColor(Terminal.Color.WHITE);
+					terminal.moveCursor(x,y);
+					terminal.putCharacter('.');
+					terminal.moveCursor(x - 1,y);
+					terminal.applyForegroundColor(Terminal.Color.GREEN);
+					terminal.putCharacter('@');
+					x--;
+				}
+			}
+			if (key.getKind() == Key.Kind.ArrowUp) {
+				if (y != 1){
+					terminal.applyForegroundColor(Terminal.Color.WHITE);
+					terminal.moveCursor(x,y);
+					terminal.putCharacter('.');
+					terminal.moveCursor(x,y - 1);
+					terminal.applyForegroundColor(Terminal.Color.GREEN);
+					terminal.putCharacter('@');
+					y--;
+				}
+			}
+			if (key.getKind() == Key.Kind.ArrowDown) {
+				if (y != rows - 2){
+					terminal.applyForegroundColor(Terminal.Color.WHITE);
+					terminal.moveCursor(x,y);
+					terminal.putCharacter('.');
+					terminal.moveCursor(x,y + 1);
+					terminal.applyForegroundColor(Terminal.Color.GREEN);
+					terminal.putCharacter('@');
+					y++;
+				}
+			}
 		}
+	}
 
 /*
 		while(running){
