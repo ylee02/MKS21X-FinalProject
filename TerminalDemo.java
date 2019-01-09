@@ -22,6 +22,52 @@ public class TerminalDemo {
 			t.putCharacter(s.charAt(i));
 		}
 	}
+
+	public static void setRoom(int x, int y, Terminal terminal, int columns, int rows){
+		for (int i = 0; i < rows; i++){
+			x = 0;
+			terminal.moveCursor(x,y);
+			for (int r= 0; r < columns; r++){
+					terminal.moveCursor(x,y);
+					if (x == 0 || x== columns - 1){
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
+						terminal.putCharacter('|');
+					}else{
+						if (y == 0 || y == rows - 1){
+								terminal.applyForegroundColor(Terminal.Color.GREEN);
+								terminal.putCharacter('-');
+						}else{
+								terminal.applyForegroundColor(Terminal.Color.WHITE);
+								terminal.putCharacter('.');
+						}
+					}
+					x = x + 1;
+			}
+			y = y + 1;
+		}
+		terminal.moveCursor(columns / 2, 0);
+		terminal.putCharacter(' ');
+		terminal.moveCursor(columns / 2 - 1, 0);
+		terminal.putCharacter(' ');
+		terminal.moveCursor(columns / 2 - 1, rows);
+		terminal.putCharacter(' ');
+		terminal.moveCursor(columns / 2, rows);
+		terminal.putCharacter(' ');
+		terminal.moveCursor(columns, rows / 2);
+		terminal.putCharacter(' ');
+		terminal.moveCursor(columns, rows / 2 - 1);
+		terminal.putCharacter(' ');
+		terminal.moveCursor(0, rows / 2);
+		terminal.putCharacter(' ');
+		terminal.moveCursor(0, rows / 2 - 1);
+		terminal.putCharacter(' ');
+
+		terminal.moveCursor(1, 1);
+		x = 1;
+		y = 1;
+		terminal.putCharacter('@');
+	}
+
 	public static void main(String[] args) {
 
 
@@ -44,8 +90,8 @@ public class TerminalDemo {
 		//terminalsize.setRows(10);
 		int rows = terminalsize.getRows();
 		String rowsString = "" + rows;
-    	int columns = terminalsize.getColumns();
-    	terminal.moveCursor(x,y);
+    int columns = terminalsize.getColumns();
+    terminal.moveCursor(x,y);
     /*for (int i = 0; i < columns; i++){
 			x = x + 1;
 			terminal.moveCursor(x,y);
@@ -66,32 +112,10 @@ public class TerminalDemo {
 			terminal.moveCursor(x,y);
       terminal.putCharacter('|');
     }*/
-		for (int i = 0; i < rows; i++){
-			x = 0;
-			terminal.moveCursor(x,y);
-			for (int r= 0; r < columns; r++){
-					terminal.moveCursor(x,y);
-					if (x == 0 || x== columns - 1){
-						terminal.applyForegroundColor(Terminal.Color.GREEN);
-						terminal.putCharacter('|');
-					}else{
-						if (y == 0 || y == rows - 1){
-								terminal.applyForegroundColor(Terminal.Color.GREEN);
-								terminal.putCharacter('-');
-						}else{
-								terminal.applyForegroundColor(Terminal.Color.WHITE);
-								terminal.putCharacter('.');
-						}
-					}
-					x = x + 1;
-			}
-			y = y + 1;
-		}
-		terminal.moveCursor(1, 1);
+		setRoom(x,y,terminal, columns, rows);
 		x = 1;
 		y = 1;
-		terminal.putCharacter('@');
-    while (running){
+		while (running){
       	Key key = terminal.readInput();
 		if (key != null){
         	if (key.getKind() == Key.Kind.Escape) {
@@ -100,6 +124,16 @@ public class TerminalDemo {
 			}
 
 			if (key.getKind() == Key.Kind.ArrowRight) {
+				if (x == columns - 2 && ((y == rows / 2) || (y == rows / 2 - 1))){
+					//setRoom(x,y,terminal, columns + 1, rows);
+					terminal.applyForegroundColor(Terminal.Color.WHITE);
+					terminal.moveCursor(x,y);
+					terminal.putCharacter('.');
+					x = 1;
+					y = 1;
+					terminal.moveCursor(x,y);
+					terminal.putCharacter('@');
+				}
 				if (x != columns - 2){
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
 					terminal.moveCursor(x,y);
