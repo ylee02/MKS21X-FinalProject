@@ -3,18 +3,46 @@ public class Monster extends Entity implements Alive{
   private int gold;
   private int health;
   private int strength;
+  private boolean chest;
 
   public monster(String type, int x, int y){
     this.type = type;
     this.setX(x);
     this.setY(y);
+    setMStats();
   }
 
-  public monster(String type, int x, int y, int gold){
-    this.type = type;
-    this.setX(x);
-    this.setY(y);
-    this.gold = gold;
+  public void setMStats() {
+    if (type.equals("Goblin")) {
+      setHealth(5);
+      setStrength(1);
+    }
+    if (type.equals("Skeleton")) {
+      setHealth(3);
+      setStrength(3);
+    }
+    if (type.equals("Ogre")) {
+      setHealth(10);
+      setStrength(2);
+    }
+    if (type.equals("Slime")) {
+      setHealth(1);
+      setStrength(1);
+    }
+    if (type.equals("Dragon")) {
+      setHealth(40);
+      setStrength(3);
+    }
+    if (type.equals("Assassin")) {
+      setHealth(1);
+      setStrength(100000000000000000000);
+    }
+    if (type.equals("Chest")) {
+      setHealth(1);
+      setStrength(0);
+      chest = true; 
+    }
+
   }
 
   public void move(int newX, int newY){
@@ -36,6 +64,7 @@ public class Monster extends Entity implements Alive{
   }
 
   public void die(){
+    Togue.getLoot(chest);
   }
 
   public int getHealth(){
