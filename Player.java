@@ -4,13 +4,17 @@ public class Player extends Entity implements Alive {
   private int level;
   private int health;
   private int strength;
+  private Item weapon;
+  private Item armor;
 
   public Player() {
     luck = 1;
     cons = 1;
     level = 1;
-    strength = 1;
+    strength = 2;
     health = 5;
+    weapon = new Item(false, 1);
+    armor = new Item(true, 1);
   }
 
   public int getLuck() {
@@ -54,6 +58,18 @@ public class Player extends Entity implements Alive {
 
   public void setStrength(int strength){
     this.strength = strength;
+  }
+
+  public void equipWeapon(Item i) {
+    boolean ar = i.getArmor();
+    if (ar) {
+      setCons(getCons() - armor.getStat() + i.getStat());
+      armor = i;
+    }
+    else {
+      setStrength(getStrength - weapon.getStat()- i.getStat());
+      weapon = i;
+    }
   }
 
 }
