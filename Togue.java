@@ -5,9 +5,15 @@ public class Togue {
 
 
 
-  public void getLoot() {
-    Item i = new Item(Random.nextBoolean(), Math.abs(Random.nextInt()%(floor * 2)),  Math.abs(Random.nextInt()%(floor * 2));
+  public void getLoot(boolean chest) {
+    if (chest) {
+      Item i = new Item(Random.nextBoolean(), Math.abs(Random.nextInt()%(floor * 4));
+    }
+    else {
+      Item i = new Item(Random.nextBoolean(), Math.abs(Random.nextInt()%(floor * 2));
+    }
     dropLoot(i);
+
   }
 
 

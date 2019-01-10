@@ -42,6 +42,7 @@ public class Player extends Entity implements Alive {
   }
 
   public void die(){
+
   }
 
   public int getHealth(){
@@ -52,12 +53,12 @@ public class Player extends Entity implements Alive {
     return strength;
   }
 
-  public void setHealth(int health){
-    this.health = health;
+  public void setHealth(int newHealth){
+    this.health = newHealth;
   }
 
-  public void setStrength(int strength){
-    this.strength = strength;
+  public void setStrength(int newStrength){
+    this.strength = newStrength;
   }
 
   public void equipWeapon(Item i) {

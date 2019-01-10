@@ -3,9 +3,13 @@ public class Monster extends Entity implements Alive{
   private int gold;
   private int health;
   private int strength;
+  private boolean chest;
 
   public monster(String type, int x, int y){
     this.type = type;
+    if (type.equals("chest")) {
+      chest = true;
+    }
     this.setX(x);
     this.setY(y);
   }
@@ -36,6 +40,7 @@ public class Monster extends Entity implements Alive{
   }
 
   public void die(){
+    Togue.getLoot(chest);
   }
 
   public int getHealth(){
