@@ -51,8 +51,9 @@ public class Player extends Entity implements Alive {
   public void setHealth(int health){
     this.health = health;
   }
-  
+
   public void setStrength(int strength){
     this.strength = strength;
   }
+
 }

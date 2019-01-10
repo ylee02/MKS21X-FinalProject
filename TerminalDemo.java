@@ -90,28 +90,28 @@ public class TerminalDemo {
 		//terminalsize.setRows(10);
 		int rows = terminalsize.getRows();
 		String rowsString = "" + rows;
-    int columns = terminalsize.getColumns();
-    terminal.moveCursor(x,y);
-    /*for (int i = 0; i < columns; i++){
-			x = x + 1;
-			terminal.moveCursor(x,y);
-			terminal.putCharacter('-');
-    }
-		for (int i = 0; i < rows; i++){
-			y = y + 1;
-			terminal.moveCursor(x,y);
-      terminal.putCharacter('|');
-    }
-		for (int i = 0; i < columns; i++){
-      x = x - 1;
-			terminal.moveCursor(x,y);
-      terminal.putCharacter('-');
-    }
-		for (int i = 0; i < rows - 1; i++){
-      y = y - 1;
-			terminal.moveCursor(x,y);
-      terminal.putCharacter('|');
-    }*/
+		int columns = terminalsize.getColumns();
+		terminal.moveCursor(x,y);
+		/*for (int i = 0; i < columns; i++){
+				x = x + 1;
+				terminal.moveCursor(x,y);
+				terminal.putCharacter('-');
+		}
+			for (int i = 0; i < rows; i++){
+				y = y + 1;
+				terminal.moveCursor(x,y);
+		terminal.putCharacter('|');
+		}
+			for (int i = 0; i < columns; i++){
+		x = x - 1;
+				terminal.moveCursor(x,y);
+		terminal.putCharacter('-');
+		}
+			for (int i = 0; i < rows - 1; i++){
+		y = y - 1;
+				terminal.moveCursor(x,y);
+		terminal.putCharacter('|');
+		}*/
 		setRoom(x,y,terminal, columns, rows);
 		x = 1;
 		y = 1;
@@ -130,13 +130,12 @@ public class TerminalDemo {
 					terminal.moveCursor(x,y);
 					terminal.putCharacter('.');
 					x = 1;
-					//TODO: Test on school computers
-					/*terminal.moveCursor(x,y);
+					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
 					terminal.putCharacter('@');
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
 					terminal.moveCursor(0,y);
-					terminal.putCharacter('.');*/
+					terminal.putCharacter('.');
 				}
 				if (x != columns - 2){
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
