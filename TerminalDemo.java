@@ -24,8 +24,14 @@ public class TerminalDemo {
 		}
 	}
 
-	public static void setRoom(int x, int y, Terminal terminal, int columns, int rows){
-		Random randgen = new Random();
+	public static int setRoom(int x, int y, Terminal terminal, int columns, int rows, int seed){
+		Random randgen;
+		int tempseed = (int)(Math.random()*100);
+		if (seed != -1){
+			randgen = new Random(seed);
+		}else{
+			randgen = new Random(tempseed);
+		}
 		int enemies = randgen.nextInt(4) + 2;
 		for (int i = 0; i < rows; i++){
 			x = 0;
@@ -71,6 +77,7 @@ public class TerminalDemo {
 			terminal.putCharacter('A');
 			enemies--;
 		}
+		return tempseed;
 	}
 
 	public static void main(String[] args) {
@@ -97,11 +104,16 @@ public class TerminalDemo {
 		int columns = terminalsize.getColumns();
 		terminal.moveCursor(x,y);
 
-		setRoom(x,y,terminal, columns, rows);
+		//INITIAL ROOM GENERATION
+		int oldseed = setRoom(x,y,terminal, columns, rows, -1);
+		//CALL EACH NEW SETROOM WITH OLDSEED AS THE SEED TO GO BACKWARDS
+
 		terminal.moveCursor(columns / 2, rows / 2);
 		terminal.putCharacter('@');
 		x = columns / 2;
 		y = rows / 2;
+
+
 		while (running){
       	Key key = terminal.readInput();
 		if (key != null){
@@ -112,7 +124,7 @@ public class TerminalDemo {
 			//USE 26x11 terminal size
 			if (key.getKind() == Key.Kind.ArrowRight) {
 				if (x == columns - 2 && ((y == rows / 2) || (y == rows / 2 - 1))){
-					setRoom(0,0,terminal, columns, rows);
+					oldseed = setRoom(0,0,terminal, columns, rows, -1);
 					x = 0;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
@@ -136,7 +148,7 @@ public class TerminalDemo {
 			}
 			if (key.getKind() == Key.Kind.ArrowLeft) {
 				if (x == 1 && ((y == rows / 2) || (y == rows / 2 - 1))){
-					setRoom(0,0,terminal, columns, rows);
+					oldseed = setRoom(0,0,terminal, columns, rows, -1);
 					x = columns - 1;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
@@ -158,7 +170,7 @@ public class TerminalDemo {
 			}
 			if (key.getKind() == Key.Kind.ArrowUp) {
 				if (((x == columns / 2) || (x == columns / 2 - 1)) && y == 1){
-					setRoom(0,0,terminal, columns, rows);
+					oldseed = setRoom(0,0,terminal, columns, rows, -1);
 					y = rows - 1;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
@@ -180,7 +192,7 @@ public class TerminalDemo {
 			}
 			if (key.getKind() == Key.Kind.ArrowDown) {
 				if (((x == columns / 2) || (x == columns / 2 - 1)) && y == rows - 2){
-					setRoom(0,0,terminal, columns, rows);
+					oldseed = setRoom(0,0,terminal, columns, rows, -1);
 					y = 0;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
