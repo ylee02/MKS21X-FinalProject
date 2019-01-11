@@ -1,4 +1,5 @@
 //API : http://mabe02.github.io/lanterna/apidocs/2.1/
+import java.util.Random;
 import com.googlecode.lanterna.terminal.Terminal.SGR;
 import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.input.Key;
@@ -24,6 +25,8 @@ public class TerminalDemo {
 	}
 
 	public static void setRoom(int x, int y, Terminal terminal, int columns, int rows){
+		Random randgen = new Random();
+		int enemies = randgen.nextInt(4) + 2;
 		for (int i = 0; i < rows; i++){
 			x = 0;
 			terminal.moveCursor(x,y);
@@ -61,6 +64,13 @@ public class TerminalDemo {
 		terminal.putCharacter(' ');
 		terminal.moveCursor(0, rows / 2 - 1);
 		terminal.putCharacter(' ');
+		while (enemies > 0){
+			int enemyx = randgen.nextInt(columns - 2) + 1;
+			int enemyy = randgen.nextInt(rows - 2) + 1;
+			terminal.moveCursor(enemyx,enemyy);
+			terminal.putCharacter('A');
+			enemies--;
+		}
 	}
 
 	public static void main(String[] args) {
@@ -81,32 +91,11 @@ public class TerminalDemo {
 		long lastSecond = 0;
 
 		TerminalSize terminalsize = terminal.getTerminalSize();
-		//terminalsize.setColumns(10);
-		//terminalsize.setRows(10);
+		
 		int rows = terminalsize.getRows() - 3;
 		String rowsString = "" + rows;
 		int columns = terminalsize.getColumns();
 		terminal.moveCursor(x,y);
-		/*for (int i = 0; i < columns; i++){
-				x = x + 1;
-				terminal.moveCursor(x,y);
-				terminal.putCharacter('-');
-		}
-			for (int i = 0; i < rows; i++){
-				y = y + 1;
-				terminal.moveCursor(x,y);
-		terminal.putCharacter('|');
-		}
-			for (int i = 0; i < columns; i++){
-		x = x - 1;
-				terminal.moveCursor(x,y);
-		terminal.putCharacter('-');
-		}
-			for (int i = 0; i < rows - 1; i++){
-		y = y - 1;
-				terminal.moveCursor(x,y);
-		terminal.putCharacter('|');
-		}*/
 
 		setRoom(x,y,terminal, columns, rows);
 		terminal.moveCursor(columns / 2, rows / 2);
