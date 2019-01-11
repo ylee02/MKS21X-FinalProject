@@ -124,7 +124,7 @@ public class TerminalDemo {
 			if (key.getKind() == Key.Kind.ArrowRight) {
 				if (x == columns - 2 && ((y == rows / 2) || (y == rows / 2 - 1))){
 					setRoom(0,0,terminal, columns, rows);
-					x = 1;
+					x = 0;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
 					terminal.putCharacter('@');
@@ -138,13 +138,16 @@ public class TerminalDemo {
 					terminal.putCharacter('@');
 					x++;
 				}
+				terminal.moveCursor(0,rows / 2);
+				terminal.applyForegroundColor(Terminal.Color.WHITE);
+				terminal.putCharacter(' ');
+				terminal.moveCursor(0,rows / 2 - 1);
+				terminal.applyForegroundColor(Terminal.Color.WHITE);
+				terminal.putCharacter(' ');
 			}
 			if (key.getKind() == Key.Kind.ArrowLeft) {
 				if (x == 1 && ((y == rows / 2) || (y == rows / 2 - 1))){
 					setRoom(0,0,terminal, columns, rows);
-					terminal.moveCursor(columns,y);
-					terminal.applyForegroundColor(Terminal.Color.GREEN);
-					terminal.putCharacter(' ');
 					x = columns - 1;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
@@ -159,8 +162,19 @@ public class TerminalDemo {
 					terminal.putCharacter('@');
 					x--;
 				}
+				terminal.moveCursor(columns, rows / 2);
+				terminal.putCharacter(' ');
+				terminal.moveCursor(columns, rows / 2 - 1);
+				terminal.putCharacter(' ');		
 			}
 			if (key.getKind() == Key.Kind.ArrowUp) {
+				if (((x == columns / 2) || (x == columns / 2 - 1)) && y == 1){
+					setRoom(0,0,terminal, columns, rows);
+					y = rows - 1;
+					terminal.moveCursor(x,y);
+					terminal.applyForegroundColor(Terminal.Color.GREEN);
+					terminal.putCharacter('@');
+				}
 				if (y != 1){
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
 					terminal.moveCursor(x,y);
@@ -170,8 +184,19 @@ public class TerminalDemo {
 					terminal.putCharacter('@');
 					y--;
 				}
+				terminal.moveCursor(columns / 2 - 1, rows - 1);
+				terminal.putCharacter(' ');
+				terminal.moveCursor(columns / 2, rows - 1);
+				terminal.putCharacter(' ');
 			}
 			if (key.getKind() == Key.Kind.ArrowDown) {
+				if (((x == columns / 2) || (x == columns / 2 - 1)) && y == rows - 2){
+					setRoom(0,0,terminal, columns, rows);
+					y = 0;
+					terminal.moveCursor(x,y);
+					terminal.applyForegroundColor(Terminal.Color.GREEN);
+					terminal.putCharacter('@');
+				}
 				if (y != rows - 2){
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
 					terminal.moveCursor(x,y);
@@ -181,6 +206,10 @@ public class TerminalDemo {
 					terminal.putCharacter('@');
 					y++;
 				}
+				terminal.moveCursor(columns / 2, 0);
+				terminal.putCharacter(' ');
+				terminal.moveCursor(columns / 2 - 1, 0);
+				terminal.putCharacter(' ');
 			}
 		}
 	}
