@@ -74,13 +74,20 @@ public class TerminalDemo {
 			int enemyx = randgen.nextInt(columns - 2) + 1;
 			int enemyy = randgen.nextInt(rows - 2) + 1;
 			terminal.moveCursor(enemyx,enemyy);
-			terminal.putCharacter('A');
+			int whichguy = randgen.nextInt(5);
+			terminal.putCharacter("ABCDE".charAt(whichguy));
 			enemies--;
 		}
 		return tempseed;
 	}
 
 	public static void main(String[] args) {
+
+		//used to calculate staircase/boss generation, switching screens, etc.
+		int roomsBeenIn;
+
+		//direction of the last room (for seeds)
+		String lastRoom;
 
 
 		int x = 0;
