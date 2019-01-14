@@ -64,7 +64,7 @@ public class Monster extends Entity implements Alive{
   }
 
   public void die(){
-    Togue.getLoot(chest);
+    Togue.getLoot(chest, this);
   }
 
   public int getHealth(){

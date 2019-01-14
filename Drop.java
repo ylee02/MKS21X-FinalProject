@@ -1,8 +1,8 @@
 public class Drop extends Entity {
   private Item item;
   public Drop(int nx, int ny, Item newItem) {
-    x = nx;
-    y = ny;
-    newItem = i;
+    this.setX(nx);
+    this.setY(ny);
+    this.item = newItem;
   }
 }
