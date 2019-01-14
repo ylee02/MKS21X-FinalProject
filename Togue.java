@@ -12,6 +12,9 @@ public class Togue {
 	  return floor;
   }
   
+  public Player getPlayer() {
+	  return player;
+  }
 
 
 
