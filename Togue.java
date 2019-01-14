@@ -18,7 +18,7 @@ public class Togue {
 
 
 
-  public void getLoot(boolean chest) {
+  public void getLoot(boolean chest, Monster m) {
 	Item i;
 	Random ran = new Random();
     if (chest) {
@@ -27,7 +27,7 @@ public class Togue {
     else {
       i = new Item(ran.nextBoolean(), Math.abs(ran.nextInt()%(floor * 2));
     }
-    dropLoot(i);
+    m.dropLoot(i);
 
   }
 

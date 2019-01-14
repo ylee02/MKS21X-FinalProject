@@ -84,7 +84,7 @@ public class TerminalDemo {
 	public static void main(String[] args) {
 		
 		Togue game = new Togue();
-		player = game.getPlayer();
+		Player player = game.getPlayer();
 		//used to calculate staircase/boss generation, switching screens, etc.
 		int roomsBeenIn;
 
