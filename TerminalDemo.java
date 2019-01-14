@@ -28,6 +28,7 @@ public class TerminalDemo {
 	}
 
 	public static int setRoom(int x, int y, Terminal terminal, int columns, int rows, int seed, ArrayList<Integer> enemiesArrayList){
+		enemiesArrayList.clear();
 		Random randgen;
 		int tempseed = (int)(Math.random()*10000);
 		if (seed != -1){
@@ -78,7 +79,8 @@ public class TerminalDemo {
 			int enemyy = randgen.nextInt(rows - 2) + 1;
 			terminal.moveCursor(enemyx,enemyy);
 			int whichguy = randgen.nextInt(5);
-			terminal.putCharacter("ABCDE".charAt(whichguy));
+			//Make "ABCDE" eventually: more enemies
+			terminal.putCharacter("AAAAA".charAt(whichguy));
 			enemiesArrayList.add(enemyx);
 			enemiesArrayList.add(enemyy);
 			enemies--;
@@ -132,10 +134,10 @@ public class TerminalDemo {
 
 		ArrayList<Integer> enemiesal = new ArrayList<>();
 		//INITIAL ROOM GENERATION
-		int oldest = -1;
 		int oldseed = setRoom(x,y,terminal, columns, rows, -1, enemiesal);
 		//CALL EACH NEW SETROOM WITH OLDSEED AS THE SEED TO GO BACKWARDS
-		
+		int oldest = oldseed;
+
 		boolean firsttime = false;
 
 		terminal.moveCursor(columns / 2, rows / 2);
@@ -143,17 +145,21 @@ public class TerminalDemo {
 		x = columns / 2;
 		y = rows / 2;
 
+		int ik = 0;
+		boolean temp = true;
+
 		while (running){
 		Key key = terminal.readInput();
 		if (mode == 1){
-			for (int i = 0;i < columns; i++){
-				for (int c = 0; c < terminalsize.getRows(); c++){
-					terminal.moveCursor(i,c);
-					terminal.putCharacter(' ');
+			if (temp){
+				for (int i = 0;i < columns; i++){
+					for (int c = 0; c < terminalsize.getRows(); c++){
+						terminal.moveCursor(i,c);
+						terminal.putCharacter(' ');
+					}
 				}
-			}
-			terminal.moveCursor(columns / 3, rows / 2);
-			terminal.putCharacter('@');
+				temp = false;
+			}			
 			if (key != null){		
 				if (key.getKind() == Key.Kind.PageDown) {
 					mode = 0;
@@ -161,21 +167,46 @@ public class TerminalDemo {
 					firsttime = true;
 				}
 			}
+			terminal.moveCursor(columns / 3, rows / 3);
+			terminal.applyForegroundColor(Terminal.Color.GREEN);
+			terminal.putCharacter('@');
+			
+			terminal.moveCursor(2 * columns / 3, rows / 3);
+			terminal.applyForegroundColor(Terminal.Color.GREEN);
+			terminal.putCharacter('A');
+
+			terminal.moveCursor(columns / 3, 2 * rows / 3);
+			terminal.applyForegroundColor(Terminal.Color.WHITE);
+			putString(0,rows, terminal, "Press 1 for Rock, Press 2 for Paper, Press 3 for Scissors");
+			/*if (key.getCharacter() == '1'){
+
+			}
+			if (key.getCharacter() == '2');
+			if (key.getCharacter() == '3');*/
+
 		}
 		if (mode == 0){
 			if (firsttime){
-				setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
-				firsttime = false;
+				//TODO: get rid of "phantom" enemy
+				setRoom(0,0,terminal, columns, rows, oldest, enemiesal);
 				terminal.moveCursor(x,y);
 				terminal.putCharacter('@');
+				firsttime = false;
+				terminal.moveCursor(enemiesal.get(ik),enemiesal.get(ik + 1));
+				terminal.applyForegroundColor(Terminal.Color.WHITE);
+				terminal.putCharacter('.');
+				enemiesal.remove(ik);
+				enemiesal.remove(ik);
+				//x--;
+				//terminal.moveCursor(x,y);
+				//terminal.putCharacter('@');
 			}
 			if (key == null){
 				for (int i = 0; i < enemiesal.size(); i += 2){
 					if (x == enemiesal.get(i)){
 						if (y == enemiesal.get(i + 1)){
 							mode = 1;
-							enemiesal.remove(i);
-							enemiesal.remove(i);
+							ik = i;
 							i = enemiesal.size();
 						}						
 					}
