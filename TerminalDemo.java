@@ -85,7 +85,7 @@ public class TerminalDemo {
 		}
 		if (randgen.nextInt() % 10 == 0){
 			stairX = randgen.nextInt(columns - 2) + 1;
-			stairsY = randgen.nextInt(rows - 2) + 1;
+			stairY = randgen.nextInt(rows - 2) + 1;
 			terminal.moveCursor(stairX, stairY);
 			terminal.putCharacter('+');
 		}
