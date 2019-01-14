@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 public class TerminalDemo {
 
-	private int stairX;
-	private int stairY;
+	private static int stairX;
+	private static int stairY;
 	
 	public static void putString(int r, int c,Terminal t, String s){
 		t.moveCursor(r,c);
@@ -92,9 +92,9 @@ public class TerminalDemo {
 		return tempseed;
 	}
 	
-	public void resetStair() {
-		this.stairX = -1;
-		this.stairY = -1;
+	public static void resetStair() {
+		stairX = -1;
+		stairY = -1;
 	}
 
 	public static void main(String[] args) {
@@ -189,7 +189,7 @@ public class TerminalDemo {
 				//USE 26x11 terminal size
 				if (key.getKind() == Key.Kind.ArrowRight) {
 					if (x == columns - 2 && ((y == rows / 2) || (y == rows / 2 - 1))){
-						this.resetStair();
+						resetStair();
 						if (lastRoom.equals("right")){
 							setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
 							oldseed = oldest;
@@ -203,8 +203,8 @@ public class TerminalDemo {
 						lastRoom = "left";
 					}
 					if (x != columns - 2 && x != columns - 1 && x != columns){
-						if (x - 1 == this.stairX && y = this.stairY) {
-							game.setFloor(getFloor() + 1);
+						if (x - 1 == stairX && y = stairY) {
+							game.setFloor(game.getFloor() + 1);
 							setRoom(0,0,terminal, column / 2, row / 2, - 1, enemiesa1);
 						}
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
@@ -225,7 +225,7 @@ public class TerminalDemo {
 				if (key.getKind() == Key.Kind.ArrowLeft) {
 					if (x == 1 && ((y == rows / 2) || (y == rows / 2 - 1))){
 						if (lastRoom.equals("left")){
-							this.resetStair();
+							resetStair();
 							setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
 							oldseed = oldest;
 						}else{
@@ -238,8 +238,8 @@ public class TerminalDemo {
 						lastRoom = "right";
 					}
 					if (x != 1){
-						if (x + 1 == this.stairX && y = this.stairY) {
-							game.setFloor(getFloor() + 1);
+						if (x + 1 == stairX && y = stairY) {
+							game.setFloor(game.getFloor() + 1);
 							setRoom(0,0,terminal, column / 2, row / 2, - 1, enemiesa1);
 						}
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
@@ -257,7 +257,7 @@ public class TerminalDemo {
 				}
 				if (key.getKind() == Key.Kind.ArrowUp) {
 					if (((x == columns / 2) || (x == columns / 2 - 1)) && y == 1){
-						this.resetStair();
+						resetStair();
 						if (lastRoom.equals("up")){
 							setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
 							oldseed = oldest;
@@ -271,8 +271,8 @@ public class TerminalDemo {
 						lastRoom = "down";
 					}
 					if (y != 1){
-						if (x == this.stairX && y + 1 = this.stairY) {
-							game.setFloor(getFloor() + 1);
+						if (x == stairX && y + 1 = stairY) {
+							game.setFloor(game.getFloor() + 1);
 							setRoom(0,0,terminal, column / 2, row / 2, - 1, enemiesa1);
 						}
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
@@ -290,7 +290,7 @@ public class TerminalDemo {
 				}
 				if (key.getKind() == Key.Kind.ArrowDown) {
 					if (((x == columns / 2) || (x == columns / 2 - 1)) && y == rows - 2){
-						this.resetStair();
+						resetStair();
 						if (lastRoom.equals("down")){
 							setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
 							oldseed = oldest;
@@ -304,8 +304,8 @@ public class TerminalDemo {
 						lastRoom = "up";
 					}
 					if (y != rows - 2){
-						if (x == this.stairX && y - 1 = this.stairY) {
-							game.setFloor(getFloor() + 1);
+						if (x == stairX && y - 1 = stairY) {
+							game.setFloor(game.getFloor() + 1);
 							setRoom(0,0,terminal, column / 2, row / 2, - 1, enemiesa1);
 						}
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
