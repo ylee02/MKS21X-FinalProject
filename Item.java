@@ -11,7 +11,7 @@ public class Item {
     return stat;
   }
 
-  public int getArmor() {
+  public boolean getArmor() {
     return armor;
   }
 }
