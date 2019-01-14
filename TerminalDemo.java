@@ -150,6 +150,22 @@ public class TerminalDemo {
 
 		while (running){
 		Key key = terminal.readInput();
+		if (mode == 2){
+			for (int i = 0;i < columns; i++){
+				for (int c = 0; c < terminalsize.getRows(); c++){
+					terminal.moveCursor(i,c);
+					terminal.putCharacter(' ');
+				}
+			}
+			putString(columns / 2, rows / 2, terminal, "You Died!");
+			putString(columns / 2, 1 + (rows / 2), terminal, "Press Escape to exit!");
+			if (key != null){		
+				if (key.getKind() == Key.Kind.Escape) {
+					terminal.exitPrivateMode();
+					running = false;
+				}
+			}
+		}
 		if (mode == 1){
 			if (temp){
 				for (int i = 0;i < columns; i++){
@@ -160,13 +176,7 @@ public class TerminalDemo {
 				}
 				temp = false;
 			}			
-			if (key != null){		
-				if (key.getKind() == Key.Kind.PageDown) {
-					mode = 0;
-					x++;
-					firsttime = true;
-				}
-			}
+			
 			terminal.moveCursor(columns / 3, rows / 3);
 			terminal.applyForegroundColor(Terminal.Color.GREEN);
 			terminal.putCharacter('@');
@@ -175,15 +185,68 @@ public class TerminalDemo {
 			terminal.applyForegroundColor(Terminal.Color.GREEN);
 			terminal.putCharacter('A');
 
-			terminal.moveCursor(columns / 3, 2 * rows / 3);
 			terminal.applyForegroundColor(Terminal.Color.WHITE);
-			putString(0,rows, terminal, "Press 1 for Rock, Press 2 for Paper, Press 3 for Scissors");
-			/*if (key.getCharacter() == '1'){
-
+			putString(0,2 * rows / 3, terminal, "Press 1 for Rock, Press 2 for Paper, Press 3 for Scissors");
+			String status = "";
+			if (key != null){		
+				if (key.getCharacter() == '4') {
+					mode = 0;
+					x++;
+					firsttime = true;
+				}
+				int enemyattack = 0;
+				
+				if (key.getCharacter() == '1'){
+					enemyattack = (int)(Math.random()*3) + 1;
+					if (enemyattack == 1){
+						status = "Enemy played rock. Tie. Retry.1";
+					}
+					if (enemyattack == 2){
+						status = "Enemy played paper. You Lose.2";
+					}
+					if (enemyattack == 3){
+						status = "Enemy played scissors. You Win.3";
+					}
+				}
+				if (key.getCharacter() == '2'){
+					enemyattack = (int)(Math.random()*3) + 1;
+					if (enemyattack == 2){
+						status = "Enemy played paper. Tie. Retry.1";
+					}
+					if (enemyattack == 3){
+						status = "Enemy played scissors. You Lose.2";
+					}
+					if (enemyattack == 1){
+						status = "Enemy played rock. You Win.3";
+					}
+				}if (key.getCharacter() == '3'){
+					enemyattack = (int)(Math.random()*3) + 1;
+					if (enemyattack == 3){
+						status = "Enemy played scissors. Tie. Retry.1";
+					}
+					if (enemyattack == 1){
+						status = "Enemy played rock. You Lose.2";
+					}
+					if (enemyattack == 2){
+						status = "Enemy played paper. You Win.3";
+					}
+				}
 			}
-			if (key.getCharacter() == '2');
-			if (key.getCharacter() == '3');*/
-
+			if (!status.equals("")){
+				putString(0, rows - 5, terminal, status.substring(0, status.length() - 1));
+				if (!(status.charAt(status.length() - 1) == '1')){
+					putString(0, rows, terminal, "Press 4 to exit");
+				}
+				if (status.charAt(status.length() - 1) == '2'){
+					player.setHealth(player.getHealth() - 1);
+				}
+				if (status.charAt(status.length() - 1) == '3'){
+					player.levelUp();
+				}
+			}
+			if (player.getHealth() == 0){
+				mode = 2;
+			}
 		}
 		if (mode == 0){
 			if (firsttime){
@@ -207,6 +270,7 @@ public class TerminalDemo {
 						if (y == enemiesal.get(i + 1)){
 							mode = 1;
 							ik = i;
+							temp = true;
 							i = enemiesal.size();
 						}						
 					}
