@@ -26,7 +26,7 @@ public class TerminalDemo {
 
 	public static int setRoom(int x, int y, Terminal terminal, int columns, int rows, int seed){
 		Random randgen;
-		int tempseed = (int)(Math.random()*100);
+		int tempseed = (int)(Math.random()*10000);
 		if (seed != -1){
 			randgen = new Random(seed);
 		}else{
@@ -89,7 +89,7 @@ public class TerminalDemo {
 		int roomsBeenIn;
 
 		//direction of the last room (for seeds)
-		String lastRoom;
+		String lastRoom = "";
 
 
 		int x = 0;
@@ -114,6 +114,7 @@ public class TerminalDemo {
 		terminal.moveCursor(x,y);
 
 		//INITIAL ROOM GENERATION
+		int oldest = -1;
 		int oldseed = setRoom(x,y,terminal, columns, rows, -1);
 		//CALL EACH NEW SETROOM WITH OLDSEED AS THE SEED TO GO BACKWARDS
 
@@ -121,8 +122,6 @@ public class TerminalDemo {
 		terminal.putCharacter('@');
 		x = columns / 2;
 		y = rows / 2;
-
-	
 
 		while (running){
 		Key key = terminal.readInput();
@@ -134,11 +133,17 @@ public class TerminalDemo {
 			//USE 26x11 terminal size
 			if (key.getKind() == Key.Kind.ArrowRight) {
 				if (x == columns - 2 && ((y == rows / 2) || (y == rows / 2 - 1))){
-					oldseed = setRoom(0,0,terminal, columns, rows, -1);
+					if (lastRoom.equals("right")){
+						setRoom(0,0,terminal, columns, rows, oldseed);
+						oldseed = oldest;
+					}else{
+						oldest = setRoom(0,0,terminal, columns, rows, -1);
+					}
 					x = 0;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
 					terminal.putCharacter('@');
+					lastRoom = "left";
 				}
 				if (x != columns - 2 && x != columns - 1 && x != columns){
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
@@ -158,11 +163,17 @@ public class TerminalDemo {
 			}
 			if (key.getKind() == Key.Kind.ArrowLeft) {
 				if (x == 1 && ((y == rows / 2) || (y == rows / 2 - 1))){
-					oldseed = setRoom(0,0,terminal, columns, rows, -1);
+					if (lastRoom.equals("left")){
+						setRoom(0,0,terminal, columns, rows, oldseed);
+						oldseed = oldest;
+					}else{
+						oldest = setRoom(0,0,terminal, columns, rows, -1);
+					}
 					x = columns - 1;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
 					terminal.putCharacter('@');
+					lastRoom = "right";
 				}
 				if (x != 1){
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
@@ -180,11 +191,17 @@ public class TerminalDemo {
 			}
 			if (key.getKind() == Key.Kind.ArrowUp) {
 				if (((x == columns / 2) || (x == columns / 2 - 1)) && y == 1){
-					oldseed = setRoom(0,0,terminal, columns, rows, -1);
+					if (lastRoom.equals("up")){
+						setRoom(0,0,terminal, columns, rows, oldseed);
+						oldseed = oldest;
+					}else{
+						oldest = setRoom(0,0,terminal, columns, rows, -1);
+					}
 					y = rows - 1;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
 					terminal.putCharacter('@');
+					lastRoom = "down";
 				}
 				if (y != 1){
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
@@ -202,11 +219,17 @@ public class TerminalDemo {
 			}
 			if (key.getKind() == Key.Kind.ArrowDown) {
 				if (((x == columns / 2) || (x == columns / 2 - 1)) && y == rows - 2){
-					oldseed = setRoom(0,0,terminal, columns, rows, -1);
+					if (lastRoom.equals("down")){
+						setRoom(0,0,terminal, columns, rows, oldseed);
+						oldseed = oldest;
+					}else{
+						oldest = setRoom(0,0,terminal, columns, rows, -1);
+					}
 					y = 0;
 					terminal.moveCursor(x,y);
 					terminal.applyForegroundColor(Terminal.Color.GREEN);
 					terminal.putCharacter('@');
+					lastRoom = "up";
 				}
 				if (y != rows - 2){
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
@@ -223,6 +246,7 @@ public class TerminalDemo {
 				terminal.putCharacter(' ');
 			}
 		}
+		terminal.applyForegroundColor(Terminal.Color.WHITE);
 		putString(0,rows, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel() + "     HP: " + player.getHealth() + "     Str: " + player.getStrength() + "     Luck: " + player.getLuck() + "     Armor: " + player.getCons());
 	}
 
