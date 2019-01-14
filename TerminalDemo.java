@@ -13,7 +13,7 @@ import com.googlecode.lanterna.input.InputDecoder;
 import com.googlecode.lanterna.input.InputProvider;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.input.KeyMappingProfile;
-
+import java.util.ArrayList;
 
 public class TerminalDemo {
 
@@ -24,7 +24,7 @@ public class TerminalDemo {
 		}
 	}
 
-	public static int setRoom(int x, int y, Terminal terminal, int columns, int rows, int seed){
+	public static int setRoom(int x, int y, Terminal terminal, int columns, int rows, int seed, ArrayList<Integer> enemiesArrayList){
 		Random randgen;
 		int tempseed = (int)(Math.random()*10000);
 		if (seed != -1){
@@ -76,6 +76,8 @@ public class TerminalDemo {
 			terminal.moveCursor(enemyx,enemyy);
 			int whichguy = randgen.nextInt(5);
 			terminal.putCharacter("ABCDE".charAt(whichguy));
+			enemiesArrayList.add(enemyx);
+			enemiesArrayList.add(enemyy);
 			enemies--;
 		}
 		return tempseed;
@@ -91,6 +93,7 @@ public class TerminalDemo {
 		//direction of the last room (for seeds)
 		String lastRoom = "";
 
+		int mode = 0;
 
 		int x = 0;
 		int y = 0;
@@ -113,10 +116,13 @@ public class TerminalDemo {
 		int columns = terminalsize.getColumns();
 		terminal.moveCursor(x,y);
 
+		ArrayList<Integer> enemiesal = new ArrayList<>();
 		//INITIAL ROOM GENERATION
 		int oldest = -1;
-		int oldseed = setRoom(x,y,terminal, columns, rows, -1);
+		int oldseed = setRoom(x,y,terminal, columns, rows, -1, enemiesal);
 		//CALL EACH NEW SETROOM WITH OLDSEED AS THE SEED TO GO BACKWARDS
+		
+		boolean firsttime = false;
 
 		terminal.moveCursor(columns / 2, rows / 2);
 		terminal.putCharacter('@');
@@ -125,129 +131,154 @@ public class TerminalDemo {
 
 		while (running){
 		Key key = terminal.readInput();
-		if (key != null){
-        	if (key.getKind() == Key.Kind.Escape) {
-        		terminal.exitPrivateMode();
-				running = false;
+		if (mode == 1){
+			for (int i = 0;i < columns; i++){
+				for (int c = 0; c < terminalsize.getRows(); c++){
+					terminal.moveCursor(i,c);
+					terminal.putCharacter(' ');
+				}
 			}
-			//USE 26x11 terminal size
-			if (key.getKind() == Key.Kind.ArrowRight) {
-				if (x == columns - 2 && ((y == rows / 2) || (y == rows / 2 - 1))){
-					if (lastRoom.equals("right")){
-						setRoom(0,0,terminal, columns, rows, oldseed);
-						oldseed = oldest;
-					}else{
-						oldest = setRoom(0,0,terminal, columns, rows, -1);
-					}
-					x = 0;
-					terminal.moveCursor(x,y);
-					terminal.applyForegroundColor(Terminal.Color.GREEN);
-					terminal.putCharacter('@');
-					lastRoom = "left";
+			if (key != null){		
+				if (key.getKind() == Key.Kind.PageDown) {
+					mode = 0;
+					firsttime = true;
 				}
-				if (x != columns - 2 && x != columns - 1 && x != columns){
-					terminal.applyForegroundColor(Terminal.Color.WHITE);
-					terminal.moveCursor(x,y);
-					terminal.putCharacter('.');
-					terminal.moveCursor(x + 1,y);
-					terminal.applyForegroundColor(Terminal.Color.GREEN);
-					terminal.putCharacter('@');
-					x++;
-				}
-				terminal.moveCursor(0,rows / 2);
-				terminal.applyForegroundColor(Terminal.Color.WHITE);
-				terminal.putCharacter(' ');
-				terminal.moveCursor(0,rows / 2 - 1);
-				terminal.applyForegroundColor(Terminal.Color.WHITE);
-				terminal.putCharacter(' ');
-			}
-			if (key.getKind() == Key.Kind.ArrowLeft) {
-				if (x == 1 && ((y == rows / 2) || (y == rows / 2 - 1))){
-					if (lastRoom.equals("left")){
-						setRoom(0,0,terminal, columns, rows, oldseed);
-						oldseed = oldest;
-					}else{
-						oldest = setRoom(0,0,terminal, columns, rows, -1);
-					}
-					x = columns - 1;
-					terminal.moveCursor(x,y);
-					terminal.applyForegroundColor(Terminal.Color.GREEN);
-					terminal.putCharacter('@');
-					lastRoom = "right";
-				}
-				if (x != 1){
-					terminal.applyForegroundColor(Terminal.Color.WHITE);
-					terminal.moveCursor(x,y);
-					terminal.putCharacter('.');
-					terminal.moveCursor(x - 1,y);
-					terminal.applyForegroundColor(Terminal.Color.GREEN);
-					terminal.putCharacter('@');
-					x--;
-				}
-				terminal.moveCursor(columns, rows / 2);
-				terminal.putCharacter(' ');
-				terminal.moveCursor(columns, rows / 2 - 1);
-				terminal.putCharacter(' ');		
-			}
-			if (key.getKind() == Key.Kind.ArrowUp) {
-				if (((x == columns / 2) || (x == columns / 2 - 1)) && y == 1){
-					if (lastRoom.equals("up")){
-						setRoom(0,0,terminal, columns, rows, oldseed);
-						oldseed = oldest;
-					}else{
-						oldest = setRoom(0,0,terminal, columns, rows, -1);
-					}
-					y = rows - 1;
-					terminal.moveCursor(x,y);
-					terminal.applyForegroundColor(Terminal.Color.GREEN);
-					terminal.putCharacter('@');
-					lastRoom = "down";
-				}
-				if (y != 1){
-					terminal.applyForegroundColor(Terminal.Color.WHITE);
-					terminal.moveCursor(x,y);
-					terminal.putCharacter('.');
-					terminal.moveCursor(x,y - 1);
-					terminal.applyForegroundColor(Terminal.Color.GREEN);
-					terminal.putCharacter('@');
-					y--;
-				}
-				terminal.moveCursor(columns / 2 - 1, rows - 1);
-				terminal.putCharacter(' ');
-				terminal.moveCursor(columns / 2, rows - 1);
-				terminal.putCharacter(' ');
-			}
-			if (key.getKind() == Key.Kind.ArrowDown) {
-				if (((x == columns / 2) || (x == columns / 2 - 1)) && y == rows - 2){
-					if (lastRoom.equals("down")){
-						setRoom(0,0,terminal, columns, rows, oldseed);
-						oldseed = oldest;
-					}else{
-						oldest = setRoom(0,0,terminal, columns, rows, -1);
-					}
-					y = 0;
-					terminal.moveCursor(x,y);
-					terminal.applyForegroundColor(Terminal.Color.GREEN);
-					terminal.putCharacter('@');
-					lastRoom = "up";
-				}
-				if (y != rows - 2){
-					terminal.applyForegroundColor(Terminal.Color.WHITE);
-					terminal.moveCursor(x,y);
-					terminal.putCharacter('.');
-					terminal.moveCursor(x,y + 1);
-					terminal.applyForegroundColor(Terminal.Color.GREEN);
-					terminal.putCharacter('@');
-					y++;
-				}
-				terminal.moveCursor(columns / 2, 0);
-				terminal.putCharacter(' ');
-				terminal.moveCursor(columns / 2 - 1, 0);
-				terminal.putCharacter(' ');
 			}
 		}
-		terminal.applyForegroundColor(Terminal.Color.WHITE);
-		putString(0,rows, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel() + "     HP: " + player.getHealth() + "     Str: " + player.getStrength() + "     Luck: " + player.getLuck() + "     Armor: " + player.getCons());
+		if (mode == 0){
+			if (firsttime){
+				setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
+				firsttime = false;
+				terminal.moveCursor(x,y);
+				terminal.putCharacter('@');
+			}
+			if (key != null){
+				if (key.getKind() == Key.Kind.Escape) {
+					terminal.exitPrivateMode();
+					running = false;
+				}
+				if (key.getKind() == Key.Kind.PageUp) {
+					mode = 1;
+				}
+				//USE 26x11 terminal size
+				if (key.getKind() == Key.Kind.ArrowRight) {
+					if (x == columns - 2 && ((y == rows / 2) || (y == rows / 2 - 1))){
+						if (lastRoom.equals("right")){
+							setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
+							oldseed = oldest;
+						}else{
+							oldest = setRoom(0,0,terminal, columns, rows, -1, enemiesal);
+						}
+						x = 0;
+						terminal.moveCursor(x,y);
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
+						terminal.putCharacter('@');
+						lastRoom = "left";
+					}
+					if (x != columns - 2 && x != columns - 1 && x != columns){
+						terminal.applyForegroundColor(Terminal.Color.WHITE);
+						terminal.moveCursor(x,y);
+						terminal.putCharacter('.');
+						terminal.moveCursor(x + 1,y);
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
+						terminal.putCharacter('@');
+						x++;
+					}
+					terminal.moveCursor(0,rows / 2);
+					terminal.applyForegroundColor(Terminal.Color.WHITE);
+					terminal.putCharacter(' ');
+					terminal.moveCursor(0,rows / 2 - 1);
+					terminal.applyForegroundColor(Terminal.Color.WHITE);
+					terminal.putCharacter(' ');
+				}
+				if (key.getKind() == Key.Kind.ArrowLeft) {
+					if (x == 1 && ((y == rows / 2) || (y == rows / 2 - 1))){
+						if (lastRoom.equals("left")){
+							setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
+							oldseed = oldest;
+						}else{
+							oldest = setRoom(0,0,terminal, columns, rows, -1, enemiesal);
+						}
+						x = columns - 1;
+						terminal.moveCursor(x,y);
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
+						terminal.putCharacter('@');
+						lastRoom = "right";
+					}
+					if (x != 1){
+						terminal.applyForegroundColor(Terminal.Color.WHITE);
+						terminal.moveCursor(x,y);
+						terminal.putCharacter('.');
+						terminal.moveCursor(x - 1,y);
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
+						terminal.putCharacter('@');
+						x--;
+					}
+					terminal.moveCursor(columns, rows / 2);
+					terminal.putCharacter(' ');
+					terminal.moveCursor(columns, rows / 2 - 1);
+					terminal.putCharacter(' ');		
+				}
+				if (key.getKind() == Key.Kind.ArrowUp) {
+					if (((x == columns / 2) || (x == columns / 2 - 1)) && y == 1){
+						if (lastRoom.equals("up")){
+							setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
+							oldseed = oldest;
+						}else{
+							oldest = setRoom(0,0,terminal, columns, rows, -1, enemiesal);
+						}
+						y = rows - 1;
+						terminal.moveCursor(x,y);
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
+						terminal.putCharacter('@');
+						lastRoom = "down";
+					}
+					if (y != 1){
+						terminal.applyForegroundColor(Terminal.Color.WHITE);
+						terminal.moveCursor(x,y);
+						terminal.putCharacter('.');
+						terminal.moveCursor(x,y - 1);
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
+						terminal.putCharacter('@');
+						y--;
+					}
+					terminal.moveCursor(columns / 2 - 1, rows - 1);
+					terminal.putCharacter(' ');
+					terminal.moveCursor(columns / 2, rows - 1);
+					terminal.putCharacter(' ');
+				}
+				if (key.getKind() == Key.Kind.ArrowDown) {
+					if (((x == columns / 2) || (x == columns / 2 - 1)) && y == rows - 2){
+						if (lastRoom.equals("down")){
+							setRoom(0,0,terminal, columns, rows, oldseed, enemiesal);
+							oldseed = oldest;
+						}else{
+							oldest = setRoom(0,0,terminal, columns, rows, -1, enemiesal);
+						}
+						y = 0;
+						terminal.moveCursor(x,y);
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
+						terminal.putCharacter('@');
+						lastRoom = "up";
+					}
+					if (y != rows - 2){
+						terminal.applyForegroundColor(Terminal.Color.WHITE);
+						terminal.moveCursor(x,y);
+						terminal.putCharacter('.');
+						terminal.moveCursor(x,y + 1);
+						terminal.applyForegroundColor(Terminal.Color.GREEN);
+						terminal.putCharacter('@');
+						y++;
+					}
+					terminal.moveCursor(columns / 2, 0);
+					terminal.putCharacter(' ');
+					terminal.moveCursor(columns / 2 - 1, 0);
+					terminal.putCharacter(' ');
+				}
+			}
+			terminal.applyForegroundColor(Terminal.Color.WHITE);
+			putString(0,rows, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel() + "     HP: " + player.getHealth() + "     Str: " + player.getStrength() + "     Luck: " + player.getLuck() + "     Armor: " + player.getCons());
+		}
 	}
 
 /*
