@@ -222,12 +222,6 @@ public class TerminalDemo {
 				terminal.moveCursor(columns / 2 - 1, 0);
 				terminal.putCharacter(' ');
 			}
-<<<<<<< Updated upstream
-			putString(0, rows - 3, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel());
-			putString(0, rows - 2, terminal, "HP: " + player.getHealth() + "     Str: " + player.getStrength());
-			putString(0, rows - 1, terminal, "Luck: " + player.getLuck() + "     Cons: " + player.getCons());
-=======
->>>>>>> Stashed changes
 		}
 		putString(0,rows, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel() + "     HP: " + player.getHealth() + "     Str: " + player.getStrength() + "     Luck: " + player.getLuck() + "     Armor: " + player.getCons());
 	}
