@@ -221,9 +221,9 @@ public class TerminalDemo {
 				terminal.moveCursor(columns / 2 - 1, 0);
 				terminal.putCharacter(' ');
 			}
-			putString(rows - 3, 0, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel());
-			putString(rows - 2, 0, terminal, "HP: " + player.getHealth() + "     Str: " + player.getStrength());
-			putString(rows - 1, 0, terminal, "Luck: " + player.getLuck() + "     Cons: " + player.getCons());
+			putString(0, rows - 3, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel());
+			putString(0, rows - 2, terminal, "HP: " + player.getHealth() + "     Str: " + player.getStrength());
+			putString(0, rows - 1, terminal, "Luck: " + player.getLuck() + "     Cons: " + player.getCons());
 		}
 	}
 
