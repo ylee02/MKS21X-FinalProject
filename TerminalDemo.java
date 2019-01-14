@@ -19,7 +19,7 @@ public class TerminalDemo {
 
 	private static int stairX;
 	private static int stairY;
-	
+
 	public static void putString(int r, int c,Terminal t, String s){
 		t.moveCursor(r,c);
 		for(int i = 0; i < s.length();i++){
@@ -93,14 +93,14 @@ public class TerminalDemo {
 		}
 		return tempseed;
 	}
-	
+
 	public static void resetStair() {
 		stairX = -1;
 		stairY = -1;
 	}
 
 	public static void main(String[] args) {
-		
+
 		Togue game = new Togue();
 		Player player = game.getPlayer();
 		//used to calculate staircase/boss generation, switching screens, etc.
@@ -126,7 +126,7 @@ public class TerminalDemo {
 		long lastSecond = 0;
 
 		TerminalSize terminalsize = terminal.getTerminalSize();
-		
+
 		int rows = terminalsize.getRows() - 3;
 		String rowsString = "" + rows;
 		int columns = terminalsize.getColumns();
@@ -159,7 +159,7 @@ public class TerminalDemo {
 			}
 			putString(columns / 2, rows / 2, terminal, "You Died!");
 			putString(columns / 2, 1 + (rows / 2), terminal, "Press Escape to exit!");
-			if (key != null){		
+			if (key != null){
 				if (key.getKind() == Key.Kind.Escape) {
 					terminal.exitPrivateMode();
 					running = false;
@@ -175,12 +175,12 @@ public class TerminalDemo {
 					}
 				}
 				temp = false;
-			}			
-			
+			}
+
 			terminal.moveCursor(columns / 3, rows / 3);
 			terminal.applyForegroundColor(Terminal.Color.GREEN);
 			terminal.putCharacter('@');
-			
+
 			terminal.moveCursor(2 * columns / 3, rows / 3);
 			terminal.applyForegroundColor(Terminal.Color.GREEN);
 			terminal.putCharacter('A');
@@ -188,14 +188,14 @@ public class TerminalDemo {
 			terminal.applyForegroundColor(Terminal.Color.WHITE);
 			putString(0,2 * rows / 3, terminal, "Press 1 for Rock, Press 2 for Paper, Press 3 for Scissors");
 			String status = "";
-			if (key != null){		
+			if (key != null){
 				if (key.getCharacter() == '4') {
 					mode = 0;
 					x++;
 					firsttime = true;
 				}
 				int enemyattack = 0;
-				
+
 				if (key.getCharacter() == '1'){
 					enemyattack = (int)(Math.random()*3) + 1;
 					if (enemyattack == 1){
@@ -272,7 +272,7 @@ public class TerminalDemo {
 							ik = i;
 							temp = true;
 							i = enemiesal.size();
-						}						
+						}
 					}
 				}
 			}
@@ -298,9 +298,14 @@ public class TerminalDemo {
 						lastRoom = "left";
 					}
 					if (x != columns - 2 && x != columns - 1 && x != columns){
-						if (x - 1 == stairX && y == stairY) {
+						if (x + 1 == stairX && y == stairY) {
 							game.setFloor(game.getFloor() + 1);
-							setRoom(0,0,terminal, columns / 2, rows / 2, - 1, enemiesal);
+							setRoom(0,0,terminal, columns, rows, - 1, enemiesal);
+							x = (columns / 2);
+							y = (rows / 2);
+							terminal.moveCursor(x,y);
+							terminal.applyForegroundColor(Terminal.Color.GREEN);
+							terminal.putCharacter('@');
 						}
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
 						terminal.moveCursor(x,y);
@@ -333,9 +338,14 @@ public class TerminalDemo {
 						lastRoom = "right";
 					}
 					if (x != 1){
-						if (x + 1 == stairX && y == stairY) {
+						if (x - 1 == stairX && y == stairY) {
 							game.setFloor(game.getFloor() + 1);
-							setRoom(0,0,terminal, columns / 2, rows / 2, - 1, enemiesal);
+							setRoom(0,0,terminal, columns, rows, - 1, enemiesal);
+							x = (columns / 2);
+							y = (rows / 2);
+							terminal.moveCursor(x,y);
+							terminal.applyForegroundColor(Terminal.Color.GREEN);
+							terminal.putCharacter('@');
 						}
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
 						terminal.moveCursor(x,y);
@@ -348,7 +358,7 @@ public class TerminalDemo {
 					terminal.moveCursor(columns, rows / 2);
 					terminal.putCharacter(' ');
 					terminal.moveCursor(columns, rows / 2 - 1);
-					terminal.putCharacter(' ');		
+					terminal.putCharacter(' ');
 				}
 				if (key.getKind() == Key.Kind.ArrowUp) {
 					if (((x == columns / 2) || (x == columns / 2 - 1)) && y == 1){
@@ -366,9 +376,14 @@ public class TerminalDemo {
 						lastRoom = "down";
 					}
 					if (y != 1){
-						if (x == stairX && y + 1 == stairY) {
+						if (x == stairX && y - 1 == stairY) {
 							game.setFloor(game.getFloor() + 1);
-							setRoom(0,0,terminal, columns / 2, rows / 2, - 1, enemiesal);
+							setRoom(0,0,terminal, columns, rows, - 1, enemiesal);
+							x = (columns / 2);
+							y = (rows / 2);
+							terminal.moveCursor(x,y);
+							terminal.applyForegroundColor(Terminal.Color.GREEN);
+							terminal.putCharacter('@');
 						}
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
 						terminal.moveCursor(x,y);
@@ -399,9 +414,14 @@ public class TerminalDemo {
 						lastRoom = "up";
 					}
 					if (y != rows - 2){
-						if (x == stairX && y - 1 == stairY) {
+						if (x == stairX && y + 1 == stairY) {
 							game.setFloor(game.getFloor() + 1);
-							setRoom(0,0,terminal, columns / 2, rows / 2, - 1, enemiesal);
+							setRoom(0,0,terminal, columns, rows, - 1, enemiesal);
+							x = (columns / 2);
+							y = (rows / 2);
+							terminal.moveCursor(x,y);
+							terminal.applyForegroundColor(Terminal.Color.GREEN);
+							terminal.putCharacter('@');
 						}
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
 						terminal.moveCursor(x,y);
