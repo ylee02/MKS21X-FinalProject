@@ -68,7 +68,7 @@ public class Player extends Entity implements Alive {
       armor = i;
     }
     else {
-      setStrength(getStrength - weapon.getStat()- i.getStat());
+      setStrength(getStrength() - weapon.getStat()- i.getStat());
       weapon = i;
     }
   }

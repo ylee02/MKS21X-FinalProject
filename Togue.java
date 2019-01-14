@@ -19,11 +19,13 @@ public class Togue {
 
 
   public void getLoot(boolean chest) {
+	Item i;
+	Random ran = new Random();
     if (chest) {
-      Item i = new Item(Random.nextBoolean(), Math.abs(Random.nextInt()%(floor * 4));
+      i = new Item(ran.nextBoolean(), Math.abs(ran.nextInt()%(floor * 4));
     }
     else {
-      Item i = new Item(Random.nextBoolean(), Math.abs(Random.nextInt()%(floor * 2));
+      i = new Item(ran.nextBoolean(), Math.abs(ran.nextInt()%(floor * 2));
     }
     dropLoot(i);
 
