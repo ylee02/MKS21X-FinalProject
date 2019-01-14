@@ -5,7 +5,7 @@ public class Monster extends Entity implements Alive{
   private int strength;
   private boolean chest;
 
-  public monster(String type, int x, int y){
+  public Monster(String type, int x, int y){
     this.type = type;
     this.setX(x);
     this.setY(y);
@@ -35,7 +35,7 @@ public class Monster extends Entity implements Alive{
     }
     if (type.equals("Assassin")) {
       setHealth(1);
-      setStrength(100000000000000000000);
+      setStrength(1000);
     }
     if (type.equals("Chest")) {
       setHealth(1);
@@ -51,7 +51,7 @@ public class Monster extends Entity implements Alive{
   }
 
   public void dropLoot(Item i){
-    Drop item = new Drop(getX(), getY(), i)
+    Drop item = new Drop(getX(), getY(), i);
 
   }
 
