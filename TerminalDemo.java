@@ -138,9 +138,12 @@ public class TerminalDemo {
 					terminal.putCharacter(' ');
 				}
 			}
+			terminal.moveCursor(columns / 3, rows / 2);
+			terminal.putCharacter('@');
 			if (key != null){		
 				if (key.getKind() == Key.Kind.PageDown) {
 					mode = 0;
+					x++;
 					firsttime = true;
 				}
 			}
@@ -152,13 +155,22 @@ public class TerminalDemo {
 				terminal.moveCursor(x,y);
 				terminal.putCharacter('@');
 			}
+			if (key == null){
+				for (int i = 0; i < enemiesal.size(); i += 2){
+					if (x == enemiesal.get(i)){
+						if (y == enemiesal.get(i + 1)){
+							mode = 1;
+							enemiesal.remove(i);
+							enemiesal.remove(i);
+							i = enemiesal.size();
+						}						
+					}
+				}
+			}
 			if (key != null){
 				if (key.getKind() == Key.Kind.Escape) {
 					terminal.exitPrivateMode();
 					running = false;
-				}
-				if (key.getKind() == Key.Kind.PageUp) {
-					mode = 1;
 				}
 				//USE 26x11 terminal size
 				if (key.getKind() == Key.Kind.ArrowRight) {
