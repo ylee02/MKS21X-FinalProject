@@ -2,6 +2,16 @@ import java.util.Random;
 public class Togue {
   private Player player;
   private int floor;
+  
+  public Togue() {
+	  player = new Player();
+	  floor = 1;
+  }
+  
+  public int getFloor() {
+	  return floor;
+  }
+  
 
 
 

@@ -82,7 +82,9 @@ public class TerminalDemo {
 	}
 
 	public static void main(String[] args) {
-
+		
+		Togue game = new Togue();
+		
 		//used to calculate staircase/boss generation, switching screens, etc.
 		int roomsBeenIn;
 
@@ -219,6 +221,9 @@ public class TerminalDemo {
 				terminal.moveCursor(columns / 2 - 1, 0);
 				terminal.putCharacter(' ');
 			}
+			putString(rows - 3, 0, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel());
+			putString(rows - 2, 0, terminal, "HP: " + player.getHealth() + "     Str: " + player.getStrength());
+			putString(rows - 1, 0, terminal, "Luck: " + player.getLuck() + "     Cons: " + player.getCons());
 		}
 	}
 
