@@ -12,6 +12,10 @@ public class Togue {
 	  return floor;
   }
   
+  public void setFloor(int f) {
+	  floor = f;
+  }
+  
   public Player getPlayer() {
 	  return player;
   }
