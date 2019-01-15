@@ -105,6 +105,7 @@ public class TerminalDemo {
 		Player player = game.getPlayer();
 		//used to calculate staircase/boss generation, switching screens, etc.
 		int roomsBeenIn;
+		Random randgen = new Random();
 
 		//direction of the last room (for seeds)
 		String lastRoom = "";
@@ -168,10 +169,30 @@ public class TerminalDemo {
 		}
 		if (mode == 1){
 			if (temp){
-				for (int i = 0;i < columns; i++){
-					for (int c = 0; c < terminalsize.getRows(); c++){
-						terminal.moveCursor(i,c);
-						terminal.putCharacter(' ');
+				long timeR = System.currentTimeMillis();
+				int i = 0;
+				while (i < columns) {
+					if ((System.currentTimeMillis() - timeR) % 100 == 0) {
+						for (int c = 0; c < terminalsize.getRows(); c++){
+							terminal.moveCursor(i,c);
+							if (randgen.nextInt() % 8 == 0) {
+								terminal.putCharacter(' ');
+							}
+							else {
+								terminal.putCharacter('-');
+							}
+						}
+						i++;
+					}
+				}
+				i = 0;
+				while (i < columns) {
+					if ((System.currentTimeMillis() - timeR) % 100 == 0) {
+						for (int c = 0; c < terminalsize.getRows(); c++){
+							terminal.moveCursor(i,c);
+							terminal.putCharacter(' ');
+						}
+						i++;
 					}
 				}
 				temp = false;
