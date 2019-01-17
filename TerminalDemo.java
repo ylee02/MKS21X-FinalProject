@@ -206,6 +206,8 @@ public class TerminalDemo {
 			terminal.applyForegroundColor(Terminal.Color.GREEN);
 			terminal.putCharacter('A');
 
+			Monster monster = new Monster("Goblin", 0, 0);
+
 			terminal.applyForegroundColor(Terminal.Color.WHITE);
 			putString(0,2 * rows / 3, terminal, "Press 1 for Rock, Press 2 for Paper, Press 3 for Scissors");
 			String status = "";
@@ -220,36 +222,36 @@ public class TerminalDemo {
 				if (key.getCharacter() == '1'){
 					enemyattack = (int)(Math.random()*3) + 1;
 					if (enemyattack == 1){
-						status = "Enemy played rock. Tie. Retry.1";
+						status = "Enemy played rock. Nothing happened.1";
 					}
 					if (enemyattack == 2){
-						status = "Enemy played paper. You Lose.2";
+						status = "Enemy played paper. They attacked you.2";
 					}
 					if (enemyattack == 3){
-						status = "Enemy played scissors. You Win.3";
+						status = "Enemy played scissors. You attacked them.3";
 					}
 				}
 				if (key.getCharacter() == '2'){
 					enemyattack = (int)(Math.random()*3) + 1;
 					if (enemyattack == 2){
-						status = "Enemy played paper. Tie. Retry.1";
+						status = "Enemy played paper. Nothing happened.1";
 					}
 					if (enemyattack == 3){
-						status = "Enemy played scissors. You Lose.2";
+						status = "Enemy played scissors. They attacked you.2";
 					}
 					if (enemyattack == 1){
-						status = "Enemy played rock. You Win.3";
+						status = "Enemy played rock. You attacked them.3";
 					}
 				}if (key.getCharacter() == '3'){
 					enemyattack = (int)(Math.random()*3) + 1;
 					if (enemyattack == 3){
-						status = "Enemy played scissors. Tie. Retry.1";
+						status = "Enemy played scissors. Nothing happened.1";
 					}
 					if (enemyattack == 1){
-						status = "Enemy played rock. You Lose.2";
+						status = "Enemy played rock. They attacked you.2";
 					}
 					if (enemyattack == 2){
-						status = "Enemy played paper. You Win.3";
+						status = "Enemy played paper. You attacked them.3";
 					}
 				}
 			}
