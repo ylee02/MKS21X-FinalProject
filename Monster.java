@@ -7,8 +7,9 @@ public class Monster extends Entity implements Alive{
 
   public Monster(String type, int x, int y){
     this.type = type;
-    this.setX(x);
-    this.setY(y);
+    //maybe reuse this later
+    //this.setX(x);
+    //this.setY(y);
     setMStats();
   }
 
@@ -40,7 +41,7 @@ public class Monster extends Entity implements Alive{
     if (type.equals("Chest")) {
       setHealth(1);
       setStrength(0);
-      chest = true; 
+      chest = true;
     }
 
   }
