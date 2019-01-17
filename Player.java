@@ -6,6 +6,7 @@ public class Player extends Entity implements Alive {
   private int strength;
   private Item weapon;
   private Item armor;
+  private int xp;
 
   public Player() {
     luck = 1;
@@ -15,6 +16,7 @@ public class Player extends Entity implements Alive {
     health = 5;
     weapon = new Item(false, 1);
     armor = new Item(true, 1);
+    xp = 0;
   }
 
   public int getLuck() {
