@@ -276,8 +276,9 @@ public class TerminalDemo {
 				if (status.charAt(status.length() - 1) == '3'){
 					monster.setHealth(monster.getHealth() - player.getStrength());
 					putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: "  + monster.getStrength());
+					//MAKE THIS UPDATE
 					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: "  + monster.getHealth());
-					putString(2 * columns / 3, (rows / 3) + 3, terminal, ""+monster.getHealth());
+					putString(2 * columns / 3, (rows / 3) + 3, terminal, "Health: "+monster.getHealth());
 				}
 			}
 			if (player.getHealth() == 0){
