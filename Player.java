@@ -7,6 +7,7 @@ public class Player extends Entity implements Alive {
   private Item weapon;
   private Item armor;
   private int xp;
+  private Random randgen = new Random();
 
   public Player() {
     luck = 1;
@@ -41,6 +42,8 @@ public class Player extends Entity implements Alive {
 
   public void levelUp() {
     level += 1;
+    health += randgen.nextInt() % 2;
+    strength += randgen.nextInt() % 2;
   }
 
   public void die(){
