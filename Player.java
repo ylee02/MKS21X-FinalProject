@@ -63,6 +63,17 @@ public class Player extends Entity implements Alive {
     this.strength = newStrength;
   }
 
+  public int getXP(){
+    return xp;
+  }
+
+  public void setXP(int newXP){
+    this.xp = newXP;
+    if (xp >= 5){
+      levelUp();
+    }
+  }
+
   public void equipWeapon(Item i) {
     boolean ar = i.getArmor();
     if (ar) {
