@@ -142,6 +142,7 @@ public class Game {
 		int oldest = oldseed;
 
 		boolean firsttime = false;
+		boolean firsttimeagain = false;
 
 		terminal.moveCursor(columns / 2, rows / 2);
 		terminal.putCharacter('@');
@@ -171,6 +172,10 @@ public class Game {
 			}
 		}
 		if (mode == 1){
+			if (firsttimeagain){
+				monster = new Monster("Goblin", 0, 0);
+				firsttimeagain = false;
+			}
 			if (temp){
 				long timeR = System.currentTimeMillis();
 				int i = 0;
@@ -322,6 +327,8 @@ public class Game {
 					if (x == enemiesal.get(i)){
 						if (y == enemiesal.get(i + 1)){
 							mode = 1;
+							firsttimeagain = true;
+							attackanymore = true;
 							ik = i;
 							temp = true;
 							i = enemiesal.size();
