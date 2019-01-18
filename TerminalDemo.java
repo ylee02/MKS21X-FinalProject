@@ -103,6 +103,8 @@ public class TerminalDemo {
 
 		Togue game = new Togue();
 		Player player = game.getPlayer();
+		Monster monster = new Monster("Goblin", 0, 0);
+
 		//used to calculate staircase/boss generation, switching screens, etc.
 		int roomsBeenIn;
 		Random randgen = new Random();
@@ -148,6 +150,7 @@ public class TerminalDemo {
 
 		int ik = 0;
 		boolean temp = true;
+		boolean attackanymore = true;
 
 		while (running){
 		Key key = terminal.readInput();
@@ -198,9 +201,6 @@ public class TerminalDemo {
 				temp = false;
 			}
 
-
-			Monster monster = new Monster("Goblin", 0, 0);
-
 			terminal.moveCursor(columns / 3, rows / 3);
 			terminal.applyForegroundColor(Terminal.Color.GREEN);
 			terminal.putCharacter('@');
@@ -214,9 +214,12 @@ public class TerminalDemo {
 			putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: "  + monster.getHealth());
 
 			terminal.applyForegroundColor(Terminal.Color.WHITE);
-			putString(0,2 * rows / 3, terminal, "Press 1 for Rock, Press 2 for Paper, Press 3 for Scissors");
+			if (attackanymore){
+				putString(0,2 * rows / 3, terminal, "Press 1 for Rock, Press 2 for Paper, Press 3 for Scissors");
+			}
 			String status = "";
 			if (key != null){
+				//debugging purposes only
 				if (key.getCharacter() == '4') {
 					mode = 0;
 					x++;
@@ -225,41 +228,48 @@ public class TerminalDemo {
 				int enemyattack = 0;
 
 				if (key.getCharacter() == '1'){
-					enemyattack = (int)(Math.random()*3) + 1;
-					putString(0, rows - 5, terminal, "                                                                                           ");
-					if (enemyattack == 1){
-						status = "Enemy played rock. Nothing happened.1";
-					}
-					if (enemyattack == 2){
-						status = "Enemy played paper. They attacked you.2";
-					}
-					if (enemyattack == 3){
-						status = "Enemy played scissors. You attacked them.3";
+					if (attackanymore){
+						enemyattack = (int)(Math.random()*3) + 1;
+						putString(0, rows - 5, terminal, "                                                                                           ");
+						if (enemyattack == 1){
+							status = "Enemy played rock. Nothing happened.1";
+						}
+						if (enemyattack == 2){
+							status = "Enemy played paper. They attacked you.2";
+						}
+						if (enemyattack == 3){
+							status = "Enemy played scissors. You attacked them.3";
+						}
 					}
 				}
 				if (key.getCharacter() == '2'){
-					enemyattack = (int)(Math.random()*3) + 1;
-					putString(0, rows - 5, terminal, "                                                                                           ");
-					if (enemyattack == 2){
-						status = "Enemy played paper. Nothing happened.1";
+					if (attackanymore){
+						enemyattack = (int)(Math.random()*3) + 1;
+						putString(0, rows - 5, terminal, "                                                                                           ");
+						if (enemyattack == 2){
+							status = "Enemy played paper. Nothing happened.1";
+						}
+						if (enemyattack == 3){
+							status = "Enemy played scissors. They attacked you.2";
+						}
+						if (enemyattack == 1){
+							status = "Enemy played rock. You attacked them.3";
+						}
 					}
-					if (enemyattack == 3){
-						status = "Enemy played scissors. They attacked you.2";
-					}
-					if (enemyattack == 1){
-						status = "Enemy played rock. You attacked them.3";
-					}
-				}if (key.getCharacter() == '3'){
-					putString(0, rows - 5, terminal, "                                                                                           ");
-					enemyattack = (int)(Math.random()*3) + 1;
-					if (enemyattack == 3){
-						status = "Enemy played scissors. Nothing happened.1";
-					}
-					if (enemyattack == 1){
-						status = "Enemy played rock. They attacked you.2";
-					}
-					if (enemyattack == 2){
-						status = "Enemy played paper. You attacked them.3";
+				}
+				if (key.getCharacter() == '3'){
+					if (attackanymore){
+						putString(0, rows - 5, terminal, "                                                                                           ");
+						enemyattack = (int)(Math.random()*3) + 1;
+						if (enemyattack == 3){
+							status = "Enemy played scissors. Nothing happened.1";
+						}
+						if (enemyattack == 1){
+							status = "Enemy played rock. They attacked you.2";
+						}
+						if (enemyattack == 2){
+							status = "Enemy played paper. You attacked them.3";
+						}
 					}
 				}
 			}
@@ -275,14 +285,20 @@ public class TerminalDemo {
 				}
 				if (status.charAt(status.length() - 1) == '3'){
 					monster.setHealth(monster.getHealth() - player.getStrength());
-					putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: "  + monster.getStrength());
+					putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: " + monster.getStrength());
 					//MAKE THIS UPDATE
-					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: "  + monster.getHealth());
-					putString(2 * columns / 3, (rows / 3) + 3, terminal, "Health: "+monster.getHealth());
+					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + monster.getHealth());
+					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + monster.getHealth());
 				}
 			}
-			if (player.getHealth() == 0){
+			if (player.getHealth() <= 0){
 				mode = 2;
+			}
+			if (monster.getHealth() <= 0){
+				attackanymore = false;
+				putString(0,2 * rows / 3, terminal, "                                                                                           ");
+				putString(0, rows - 5, terminal, "                                                                                           ");
+				putString(0, rows, terminal, "You killed the enemy! Press 4 to exit to map.");
 			}
 		}
 		if (mode == 0){
