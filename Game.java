@@ -291,8 +291,6 @@ public class Game {
 				if (status.charAt(status.length() - 1) == '3'){
 					monster.setHealth(monster.getHealth() - player.getStrength());
 					putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: " + monster.getStrength());
-					//MAKE THIS UPDATE
-					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + monster.getHealth());
 					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + monster.getHealth());
 				}
 			}
@@ -303,6 +301,10 @@ public class Game {
 				attackanymore = false;
 				putString(0,2 * rows / 3, terminal, "                                                                                           ");
 				putString(0, rows - 5, terminal, "                                                                                           ");
+				terminal.applyForegroundColor(Terminal.Color.GREEN);
+				monster.setHealth(0);
+				putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + 0 + "          ");
+				terminal.applyForegroundColor(Terminal.Color.WHITE);
 				putString(0, rows, terminal, "You killed the enemy! Press 4 to exit to map.");
 			}
 		}

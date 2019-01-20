@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Player extends Entity implements Alive {
   private int luck;
   private int cons;
