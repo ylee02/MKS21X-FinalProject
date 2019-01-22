@@ -386,15 +386,15 @@ public class Game {
 						if (key != null) {
 							if (key.getCharacter() == '1'){
 								player.equipWeapon(monster.getItem());
-								String temp = "You equipped the item. Press 4 to exit.";
-								putString(0, rows - 5, terminal, temp);
+								String throwaway = "You equipped the item. Press 4 to exit.";
+								putString(0, rows - 5, terminal, throwaway);
 								
 								
 								
 							}
 							if (key.getCharacter() == '2'){
-								String temp = "You did not equip the item. Press 4 to exit";
-								putString(0, rows - 5, terminal, temp);
+								String throwaway = "You did not equip the item. Press 4 to exit";
+								putString(0, rows - 5, terminal, throwaway);
 								
 							}
 							
@@ -403,8 +403,8 @@ public class Game {
 					}
 					else if (isChest) {
 						if (key != null) {
-							String temp = "You've opened a Treasure Chest! Press 4 to exit.";
-							putString(0, rows - 5, terminal, temp);
+							String throwaway = "You've opened a Treasure Chest! Press 4 to exit.";
+							putString(0, rows - 5, terminal, throwaway);
 						}
 					}
 					
@@ -464,16 +464,17 @@ public class Game {
 					terminal.putCharacter('@');
 					firsttime = false;
 					terminal.moveCursor(oldX,oldY);
-					if (! monster.isItem()) {
-						Monster temp = new Monster(7, oldX,oldY, game.getLoot(enemiesal.get(ik).isChest(), randgen));
-						terminal.putCharacter(temp.getLetter());
+					if (! enemiesal.get(ik).isItem()) {
+						Monster newMon = new Monster(7, oldX,oldY, game.getLoot(enemiesal.get(ik).isChest(), randgen));
+						terminal.putCharacter(newMon.getLetter());
+						enemiesal.add(newMon);
 					}
 					else {
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
 						terminal.putCharacter('.');
 					}
 					enemiesal.remove(ik);
-					enemiesal.add(temp);
+					
 				}
 				if (key == null){
 					for (int i = 0; i < enemiesal.size(); i += 2){
@@ -486,8 +487,8 @@ public class Game {
 								temp = true;
 								i = enemiesal.size();
 								if (enemiesal.get(i).isChest() || enemiesal.get(i).isItem()) {
-									isChest = enemies.get(i).isChest();
-									isItem = enemies.get(i).isItem();
+									isChest = enemiesal.get(i).isChest();
+									isItem = enemiesal.get(i).isItem();
 								}
 							}
 						}

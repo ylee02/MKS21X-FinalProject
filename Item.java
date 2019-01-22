@@ -17,10 +17,10 @@ public class Item {
   
   public String printArmor() {
 	  if (armor) {
-		  return "Armor"
+		  return "Armor";
 	  }
 	  else {
-		  return "Weapon"
+		  return "Weapon";
 	  }
   }
 }

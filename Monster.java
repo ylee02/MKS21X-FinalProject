@@ -9,6 +9,7 @@ public class Monster extends Entity implements Alive{
   private String name;
   private Item it;
 
+  public Monster();
   public Monster(int type, int x, int y){
     this.type = type;
     this.setX(x);
@@ -81,7 +82,7 @@ public class Monster extends Entity implements Alive{
 	  return it;
   }
   
-  public boolean isItem{) {
+  public boolean isItem() {
 	  return item;
   }
   
@@ -110,8 +111,7 @@ public class Monster extends Entity implements Alive{
     return type;
   }
 
-  public void die(){
-    Togue.getLoot(chest, this);
+  public void die() {
   }
 
   public int getHealth(){
