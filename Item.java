@@ -14,4 +14,13 @@ public class Item {
   public boolean getArmor() {
     return armor;
   }
+  
+  public String printArmor() {
+	  if (armor) {
+		  return "Armor"
+	  }
+	  else {
+		  return "Weapon"
+	  }
+  }
 }

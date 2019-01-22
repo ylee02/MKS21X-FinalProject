@@ -1,14 +1,14 @@
 import java.util.Random;
 public class Togue {
   private Player player;
-  private static int floor;
+  private int floor;
   
   public Togue() {
 	  player = new Player();
 	  floor = 1;
   }
   
-  public static int getFloor() {
+  public int getFloor() {
 	  return floor;
   }
   
@@ -22,17 +22,15 @@ public class Togue {
 
 
 
-  public static void getLoot(boolean chest, Monster m) {
+  public Item getLoot(boolean chest, Random ran) {
 	Item i;
-	Random ran = new Random();
     if (chest) {
-      i = new Item(ran.nextBoolean(), Math.abs(ran.nextInt()%(floor * 4)));
+      i = new Item(ran.nextBoolean(), Math.abs(ran.nextInt()%(floor * 3)));
     }
     else {
       i = new Item(ran.nextBoolean(), Math.abs(ran.nextInt()%(floor * 2)));
     }
-    m.dropLoot(i);
-
+	return i;
   }
 
 

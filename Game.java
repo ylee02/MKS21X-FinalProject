@@ -101,6 +101,14 @@ public class Game {
 			terminal.moveCursor(stairX, stairY);
 			terminal.putCharacter('+');
 		}
+		if (randgen.nextInt() % 20 == 0) {
+			int enemyx = randgen.nextInt(columns - 2) + 1;
+			int enemyy = randgen.nextInt(rows - 2) + 1;
+			terminal.moveCursor(enemyx,enemyy);
+			Monster newM = new Monster(6, enemyx, enemyy);
+			terminal.putCharacter(newM.getLetter());
+			enemiesArrayList.add(newM);
+		}
 		//Seed generation
 		return tempseed;
 	}
@@ -135,6 +143,9 @@ public class Game {
 		//Starting x and y coords
 		int x = 0;
 		int y = 0;
+		
+		int oldX = 0;
+		int oldY = 0;
 
 		//Setting up the terminal, timer, and loop variable
 		Terminal terminal = TerminalFacade.createTextTerminal();
@@ -178,6 +189,10 @@ public class Game {
 		int ik = 0;
 		boolean temp = true;
 		boolean attackanymore = true;
+		
+		//interaction with drops and chests
+		boolean isChest;
+		boolean isItem;
 
 		//your luck
 		double luck;
@@ -267,6 +282,7 @@ public class Game {
 					}
 					temp = false;
 				}
+				
 
 				terminal.moveCursor(columns / 3, rows / 3);
 				terminal.applyForegroundColor(Terminal.Color.GREEN);
@@ -274,21 +290,32 @@ public class Game {
 				putString(columns / 3, (rows / 3) + 1, terminal, "Attack: "  + player.getStrength());
 				putString(columns / 3, (rows / 3) + 2, terminal, "Health: "  + player.getHealth());
 
-				terminal.moveCursor(2 * columns / 3, rows / 3);
-				terminal.applyForegroundColor(Terminal.Color.GREEN);
-				terminal.putCharacter('A');
-				putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: "  + monster.getStrength());
-				putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: "  + monster.getHealth());
-
+				if (! isItem) {
+					terminal.moveCursor(2 * columns / 3, rows / 3);
+					terminal.applyForegroundColor(Terminal.Color.GREEN);
+					terminal.putCharacter(monster.getLetter());
+					putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: "  + monster.getStrength());
+					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: "  + monster.getHealth());
+				} else {
+					terminal.moveCursor(2 * columns / 3, rows / 3);
+					terminal.applyForegroundColor(Terminal.Color.GREEN);
+					terminal.putCharacter(monster.getLetter());
+					putString(2 * columns / 3, (rows / 3) + 1, terminal, "Type: "  + monster.getItem().printArmor());
+					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Stat: "  + monster.getItem().getStat());
+				}
 				terminal.applyForegroundColor(Terminal.Color.WHITE);
-				if (attackanymore){
+				if (attackanymore && ! isItem){
 					putString(0,2 * rows / 3, terminal, "Press 1 for Rock, Press 2 for Paper, Press 3 for Scissors");
+				}
+				else if (isItem) {
+					putString(0,2 * rows / 3, terminal, "Press 1 to equip, Press 2 to cancel");
 				}
 				String status = "";
 				if (key != null){
-					//debugging purposes only
 					if (key.getCharacter() == '4') {
 						mode = 0;
+						oldX = x;
+						oldY = y;
 						if (lastmove == "Left"){
 							x++;
 						}
@@ -304,53 +331,83 @@ public class Game {
 						firsttime = true;
 						onlyonce = true;
 					}
-					int enemyattack = 0;
+					if (! isItem || ! isChest) {
+						//debugging purposes only
+						
+						int enemyattack = 0;
 
-					if (key.getCharacter() == '1'){
-						if (attackanymore){
-							enemyattack = (int)(Math.random()*3) + 1;
-							putString(0, rows - 5, terminal, "                                                                                           ");
-							if (enemyattack == 1){
-								status = "Enemy played rock. Nothing happened.1";
+						if (key.getCharacter() == '1'){
+							if (attackanymore){
+								enemyattack = (int)(Math.random()*3) + 1;
+								putString(0, rows - 5, terminal, "                                                                                           ");
+								if (enemyattack == 1){
+									status = "Enemy played rock. Nothing happened.1";
+								}
+								if (enemyattack == 2){
+									status = "Enemy played paper. They attacked you.2";
+								}
+								if (enemyattack == 3){
+									status = "Enemy played scissors. You attacked them.3";
+								}
 							}
-							if (enemyattack == 2){
-								status = "Enemy played paper. They attacked you.2";
+						}
+						if (key.getCharacter() == '2'){
+							if (attackanymore){
+								enemyattack = (int)(Math.random()*3) + 1;
+								putString(0, rows - 5, terminal, "                                                                                           ");
+								if (enemyattack == 2){
+									status = "Enemy played paper. Nothing happened.1";
+								}
+								if (enemyattack == 3){
+									status = "Enemy played scissors. They attacked you.2";
+								}
+								if (enemyattack == 1){
+									status = "Enemy played rock. You attacked them.3";
+								}
 							}
-							if (enemyattack == 3){
-								status = "Enemy played scissors. You attacked them.3";
+						}
+						if (key.getCharacter() == '3'){
+							if (attackanymore){
+								putString(0, rows - 5, terminal, "                                                                                           ");
+								enemyattack = (int)(Math.random()*3) + 1;
+								if (enemyattack == 3){
+									status = "Enemy played scissors. Nothing happened.1";
+								}
+								if (enemyattack == 1){
+									status = "Enemy played rock. They attacked you.2";
+								}
+								if (enemyattack == 2){
+									status = "Enemy played paper. You attacked them.3";
+								}
 							}
 						}
 					}
-					if (key.getCharacter() == '2'){
-						if (attackanymore){
-							enemyattack = (int)(Math.random()*3) + 1;
-							putString(0, rows - 5, terminal, "                                                                                           ");
-							if (enemyattack == 2){
-								status = "Enemy played paper. Nothing happened.1";
+					else if (isItem) {
+						if (key != null) {
+							if (key.getCharacter() == '1'){
+								player.equipWeapon(monster.getItem());
+								String temp = "You equipped the item. Press 4 to exit.";
+								putString(0, rows - 5, terminal, temp);
+								
+								
+								
 							}
-							if (enemyattack == 3){
-								status = "Enemy played scissors. They attacked you.2";
+							if (key.getCharacter() == '2'){
+								String temp = "You did not equip the item. Press 4 to exit";
+								putString(0, rows - 5, terminal, temp);
+								
 							}
-							if (enemyattack == 1){
-								status = "Enemy played rock. You attacked them.3";
-							}
+							
+						}
+						
+					}
+					else if (isChest) {
+						if (key != null) {
+							String temp = "You've opened a Treasure Chest! Press 4 to exit.";
+							putString(0, rows - 5, terminal, temp);
 						}
 					}
-					if (key.getCharacter() == '3'){
-						if (attackanymore){
-							putString(0, rows - 5, terminal, "                                                                                           ");
-							enemyattack = (int)(Math.random()*3) + 1;
-							if (enemyattack == 3){
-								status = "Enemy played scissors. Nothing happened.1";
-							}
-							if (enemyattack == 1){
-								status = "Enemy played rock. They attacked you.2";
-							}
-							if (enemyattack == 2){
-								status = "Enemy played paper. You attacked them.3";
-							}
-						}
-					}
+					
 				}
 				if (!status.equals("")){
 					putString(0, rows - 5, terminal, status.substring(0, status.length() - 1));
@@ -374,11 +431,11 @@ public class Game {
 						luck = player.getLuck();
 						if (randgen.nextInt(100) < Math.ceil((Math.pow(1.01, luck ) - 1) * 100)) {
 							crit = (int) (player.getStrength() * 0.5);
+							putString(0, rows - 5, terminal, status.substring(0, status.length() - 1) + " You scored a critical hit!");
 						}
 						monster.setHealth(monster.getHealth() - (player.getStrength() + crit));
 						putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: " + monster.getStrength());
 						putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + monster.getHealth());
-						putString(0, rows - 5, terminal, status.substring(0, status.length() - 1) + " You scored a critical hit!");
 					}
 				}
 				if (player.getHealth() <= 0){
@@ -406,10 +463,17 @@ public class Game {
 					terminal.moveCursor(x,y);
 					terminal.putCharacter('@');
 					firsttime = false;
-					terminal.moveCursor(enemiesal.get(ik).getX(),enemiesal.get(ik).getY());
-					terminal.applyForegroundColor(Terminal.Color.WHITE);
-					terminal.putCharacter('.');
+					terminal.moveCursor(oldX,oldY);
+					if (! monster.isItem()) {
+						Monster temp = new Monster(7, oldX,oldY, game.getLoot(enemiesal.get(ik).isChest(), randgen));
+						terminal.putCharacter(temp.getLetter());
+					}
+					else {
+						terminal.applyForegroundColor(Terminal.Color.WHITE);
+						terminal.putCharacter('.');
+					}
 					enemiesal.remove(ik);
+					enemiesal.add(temp);
 				}
 				if (key == null){
 					for (int i = 0; i < enemiesal.size(); i += 2){
@@ -421,6 +485,10 @@ public class Game {
 								ik = i;
 								temp = true;
 								i = enemiesal.size();
+								if (enemiesal.get(i).isChest() || enemiesal.get(i).isItem()) {
+									isChest = enemies.get(i).isChest();
+									isItem = enemies.get(i).isItem();
+								}
 							}
 						}
 					}
