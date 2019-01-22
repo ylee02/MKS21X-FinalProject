@@ -480,7 +480,7 @@ public class Game {
 				if (key == null){
 					for (int i = 0; i < enemiesal.size(); i += 2){
 						if (x == enemiesal.get(i).getX()){
-							if (y == enemiesal.get(i).getY() -1){
+							if (y == enemiesal.get(i).getY()){
 								mode = 1;
 								firsttimeagain = true;
 								attackanymore = true;
