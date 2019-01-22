@@ -284,9 +284,15 @@ public class Game {
 					//putString(0, rows, terminal, "Press 4 to exit");
 				}
 				if (status.charAt(status.length() - 1) == '2'){
-					player.setHealth(player.getHealth() - monster.getStrength());
-					putString(columns / 3, (rows / 3) + 1, terminal, "Attack: "  + player.getStrength());
-					putString(columns / 3, (rows / 3) + 2, terminal, "Health: "  + player.getHealth());
+					if (! randgen.nextInt(100) < Math.ceil((Math.pow(1.01, luck) - 1) * 100)) {
+						player.setHealth(player.getHealth() - (monster.getStrength() - player.getCons()));
+						putString(columns / 3, (rows / 3) + 1, terminal, "Attack: "  + player.getStrength());
+						putString(columns / 3, (rows / 3) + 2, terminal, "Health: "  + player.getHealth());
+					}
+					else {
+						//something like "you dodged" here;;
+					}
+						
 				}
 				if (status.charAt(status.length() - 1) == '3'){
 					int crit = 0;
