@@ -460,7 +460,7 @@ public class Game {
 				if (firsttime){
 					//TODO: get rid of "phantom" enemy
 					setRoom(0,0,terminal, columns, rows, oldest, enemiesal);
-					enemiesal.remove(ik);
+					
 					terminal.moveCursor(x,y);
 					terminal.putCharacter('@');
 					firsttime = false;
@@ -474,7 +474,7 @@ public class Game {
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
 						terminal.putCharacter('.');
 					}
-					
+					enemiesal.remove(ik);
 					
 				}
 				if (key == null){
