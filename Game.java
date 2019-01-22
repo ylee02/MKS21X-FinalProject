@@ -30,7 +30,7 @@ public class Game {
 	}
 
 	//Method to create a new room given the amount of rows, columns, enemies, and a seed
-	public static int setRoom(int x, int y, Terminal terminal, int columns, int rows, int seed, ArrayList<Integer> enemiesArrayList){
+	public static int setRoom(int x, int y, Terminal terminal, int columns, int rows, int seed, ArrayList<Monster> enemiesArrayList){
 		enemiesArrayList.clear();
 		Random randgen;
 		int tempseed = (int)(Math.random()*10000);
@@ -84,11 +84,15 @@ public class Game {
 			int enemyx = randgen.nextInt(columns - 2) + 1;
 			int enemyy = randgen.nextInt(rows - 2) + 1;
 			terminal.moveCursor(enemyx,enemyy);
-			int whichguy = randgen.nextInt(5);
-			//Make "ABCDE" eventually: more enemies
-			terminal.putCharacter("AAAAA".charAt(whichguy));
-			enemiesArrayList.add(enemyx);
-			enemiesArrayList.add(enemyy);
+			int mobs = 0;
+			if (Togue.getFloor() < 5) {
+				mobs = floor;
+			}else {
+				mobs = 5;
+			}
+			Monster newM = new Monster(Math.abs(randgen.nextInt() % mobs) + 1, enemyx, enemyy);
+			terminal.putCharacter(newM.getLetter());
+			enemiesArrayList.add(newM);
 			enemies--;
 		}
 		if (randgen.nextInt() % 10 == 0){
@@ -113,7 +117,7 @@ public class Game {
 		//Initializing classes
 		Togue game = new Togue();
 		Player player = game.getPlayer();
-		Monster monster = new Monster("Goblin", 0, 0);
+		Monster monster;
 
 		//used to calculate staircase/boss generation, switching screens, etc.
 		int roomsBeenIn;
@@ -152,7 +156,7 @@ public class Game {
 		int columns = terminalsize.getColumns();
 		terminal.moveCursor(x,y);
 
-		ArrayList<Integer> enemiesal = new ArrayList<>();
+		ArrayList<Monster> enemiesal = new ArrayList<>();
 		//INITIAL ROOM GENERATION
 		int oldseed = setRoom(x,y,terminal, columns, rows, -1, enemiesal);
 		//CALL EACH NEW SETROOM WITH OLDSEED AS THE SEED TO GO BACKWARDS
@@ -230,7 +234,7 @@ public class Game {
 			}
 			if (mode == 1){
 				if (firsttimeagain){
-					monster = new Monster("Goblin", 0, 0);
+					monster = enemiesal.get(ik);
 					firsttimeagain = false;
 				}
 				if (temp){
@@ -395,16 +399,15 @@ public class Game {
 					terminal.moveCursor(x,y);
 					terminal.putCharacter('@');
 					firsttime = false;
-					terminal.moveCursor(enemiesal.get(ik),enemiesal.get(ik + 1));
+					terminal.moveCursor(enemiesal.get(ik).getX(),enemiesal.get(ik).getY());
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
 					terminal.putCharacter('.');
-					enemiesal.remove(ik);
 					enemiesal.remove(ik);
 				}
 				if (key == null){
 					for (int i = 0; i < enemiesal.size(); i += 2){
-						if (x == enemiesal.get(i)){
-							if (y == enemiesal.get(i + 1)){
+						if (x == enemiesal.get(i).getX()){
+							if (y == enemiesal.get(i).getY()){
 								mode = 1;
 								firsttimeagain = true;
 								attackanymore = true;

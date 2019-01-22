@@ -1,55 +1,80 @@
 public class Monster extends Entity implements Alive{
-  private String type;
+  private int type;
   private int gold;
   private int health;
   private int strength;
-  private boolean chest = false;;
+  private boolean chest = false;
   private boolean item = false;
+  private char letter;
+  private String name;
 
-  public Monster(String type, int x, int y){
+  public Monster(int type, int x, int y){
     this.type = type;
-    //maybe reuse this later
-    //this.setX(x);
-    //this.setY(y);
+    this.setX(x);
+    this.setY(y);
     setMStats();
   }
 
   public void setMStats() {
-    if (type.equals("Goblin")) {
+    if (type == 1) {
       setHealth(5);
       setStrength(1);
+	  letter = 'G';
+	  name = "Goblin";
     }
-    if (type.equals("Skeleton")) {
+    if (type == 2) {
       setHealth(3);
       setStrength(3);
+	  letter = 'S';
+	  name = "Skeleton";
     }
-    if (type.equals("Ogre")) {
+    if (type == 3) {
       setHealth(10);
       setStrength(2);
+	  letter = 'O';
+	  name = "Ogre";
     }
-    if (type.equals("Slime")) {
+    if (type == 4) {
       setHealth(1);
       setStrength(1);
+	  letter = 'B';
+	  name = "Blob";
     }
-    if (type.equals("Dragon")) {
-      setHealth(40);
-      setStrength(3);
-    }
-    if (type.equals("Assassin")) {
+    if (type == 5) {
       setHealth(1);
       setStrength(1000);
+	  letter = 'A';
+	  name = "Assassin";
     }
-    if (type.equals("Chest")) {
+    if (type == 6) {
       setHealth(1);
       setStrength(0);
       chest = true;
+	  letter = 'C';
+	  name = "Chest";
     }
-	if (type.equals("Item")) {
+	if (type == 7) {
 		setHealth(1);
 		setStrength(0);
 		item = true;
+		letter = 'I';
+		name = "Item";
 	}
+	if (type == 8) {
+		setHealth(400);
+		setStrength(5);
+		letter = 'D';
+		name = "Dragon";
+    }
 
+  }
+  
+  public char getLetter() {
+	  return letter;
+  }
+  
+  public String getName() {
+	  return name;
   }
 
   public void move(int newX, int newY){
