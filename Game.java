@@ -166,6 +166,7 @@ public class Game {
 		boolean firsttime = false;
 		boolean firsttimeagain = false;
 		boolean startscreen = true;
+		boolean onlyonce = true;
 
 		//put the character done
 		terminal.moveCursor(columns / 2, rows / 2);
@@ -301,6 +302,7 @@ public class Game {
 							y++;
 						}
 						firsttime = true;
+						onlyonce = true;
 					}
 					int enemyattack = 0;
 
@@ -357,31 +359,36 @@ public class Game {
 					}
 					if (status.charAt(status.length() - 1) == '2'){
 						luck = player.getLuck();
-						if (! (randgen.nextInt(100) < Math.ceil((Math.pow(1.01, luck - 1)) * 100))) {
+						if (! (randgen.nextInt(100) < Math.ceil((Math.pow(1.01, luck ) - 1) * 100))) {
 							player.setHealth(player.getHealth() - (monster.getStrength() - player.getCons()));
 							putString(columns / 3, (rows / 3) + 1, terminal, "Attack: "  + player.getStrength());
 							putString(columns / 3, (rows / 3) + 2, terminal, "Health: "  + player.getHealth());
 						}
 						else {
-							//something like "you dodged" here;;
+							putString(0, rows - 5, terminal, status.substring(0, status.length() - 6) + ", but you dodged it!");
 						}
 							
 					}
 					if (status.charAt(status.length() - 1) == '3'){
 						int crit = 0;
 						luck = player.getLuck();
-						if (randgen.nextInt(100) < Math.ceil((Math.pow(1.01, luck - 1)) * 100)) {
+						if (randgen.nextInt(100) < Math.ceil((Math.pow(1.01, luck ) - 1) * 100)) {
 							crit = (int) (player.getStrength() * 0.5);
 						}
 						monster.setHealth(monster.getHealth() - (player.getStrength() + crit));
 						putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: " + monster.getStrength());
 						putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + monster.getHealth());
+						putString(0, rows - 5, terminal, status.substring(0, status.length() - 1) + " You scored a critical hit!");
 					}
 				}
 				if (player.getHealth() <= 0){
 					mode = 2;
 				}
 				if (monster.getHealth() <= 0){
+					if (onlyonce){
+						player.setXP(player.getXP() + 1);
+						onlyonce = false;
+					}
 					attackanymore = false;
 					putString(0,2 * rows / 3, terminal, "                                                                                           ");
 					putString(0, rows - 5, terminal, "                                                                                           ");
@@ -584,7 +591,7 @@ public class Game {
 				}
 				if (!startscreen && mode != 2){
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
-					putString(0,rows, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel() + "     HP: " + player.getHealth() + "     Str: " + player.getStrength() + "     Luck: " + player.getLuck() + "     Armor: " + player.getCons());
+					putString(0,rows, terminal, "Floor: " + game.getFloor() + "     Level: " + player.getLevel() + "     XP: "+ player.getXP() + "/5"+"     HP: " + player.getHealth() + "     Str: " + player.getStrength() + "     Luck: " + player.getLuck() + "     Armor: " + player.getCons());
 				}
 			}
 		}
