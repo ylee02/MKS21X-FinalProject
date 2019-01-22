@@ -122,6 +122,9 @@ public class Game {
 		//direction of the last room (for seeds)
 		String lastRoom = "";
 
+		//direction of the last player turn
+		String lastmove = "";
+
 		//Mode the game is currently in (starting screen, map, fighting screen, death screen)
 		int mode = 0;
 
@@ -281,7 +284,18 @@ public class Game {
 					//debugging purposes only
 					if (key.getCharacter() == '4') {
 						mode = 0;
-						x++;
+						if (lastmove == "Left"){
+							x++;
+						}
+						if (lastmove == "Right"){
+							x--;
+						}
+						if (lastmove == "Down"){
+							y--;
+						}
+						if (lastmove == "Up"){
+							y++;
+						}
 						firsttime = true;
 					}
 					int enemyattack = 0;
@@ -386,9 +400,6 @@ public class Game {
 					terminal.putCharacter('.');
 					enemiesal.remove(ik);
 					enemiesal.remove(ik);
-					//x--;
-					//terminal.moveCursor(x,y);
-					//terminal.putCharacter('@');
 				}
 				if (key == null){
 					for (int i = 0; i < enemiesal.size(); i += 2){
@@ -409,7 +420,6 @@ public class Game {
 						terminal.exitPrivateMode();
 						running = false;
 					}
-					//USE 26x11 terminal size
 					if (key.getKind() == Key.Kind.ArrowRight) {
 						if (x == columns - 2 && ((y == rows / 2) || (y == rows / 2 - 1))){
 							resetStair();
@@ -449,6 +459,7 @@ public class Game {
 						terminal.moveCursor(0,rows / 2 - 1);
 						terminal.applyForegroundColor(Terminal.Color.WHITE);
 						terminal.putCharacter(' ');
+						lastmove = "Right";
 					}
 					if (key.getKind() == Key.Kind.ArrowLeft) {
 						if (x == 1 && ((y == rows / 2) || (y == rows / 2 - 1))){
@@ -487,6 +498,7 @@ public class Game {
 						terminal.putCharacter(' ');
 						terminal.moveCursor(columns, rows / 2 - 1);
 						terminal.putCharacter(' ');
+						lastmove = "Left";
 					}
 					if (key.getKind() == Key.Kind.ArrowUp) {
 						if (((x == columns / 2) || (x == columns / 2 - 1)) && y == 1){
@@ -525,6 +537,7 @@ public class Game {
 						terminal.putCharacter(' ');
 						terminal.moveCursor(columns / 2, rows - 1);
 						terminal.putCharacter(' ');
+						lastmove = "Up";
 					}
 					if (key.getKind() == Key.Kind.ArrowDown) {
 						if (((x == columns / 2) || (x == columns / 2 - 1)) && y == rows - 2){
@@ -563,6 +576,7 @@ public class Game {
 						terminal.putCharacter(' ');
 						terminal.moveCursor(columns / 2 - 1, 0);
 						terminal.putCharacter(' ');
+						lastmove = "Down";
 					}
 				}
 				if (!startscreen && mode != 2){
