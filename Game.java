@@ -289,7 +289,12 @@ public class Game {
 					putString(columns / 3, (rows / 3) + 2, terminal, "Health: "  + player.getHealth());
 				}
 				if (status.charAt(status.length() - 1) == '3'){
-					monster.setHealth(monster.getHealth() - player.getStrength());
+					int crit = 0;
+					double luck = player.getLuck()
+					if (randgen.nextInt(100) < Math.ceil((Math.pow(1.01, luck) - 1) * 100)) {
+						crit = player.getStrength * 0.5
+					}
+					monster.setHealth(monster.getHealth() - (player.getStrength() + crit);
 					putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: " + monster.getStrength());
 					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + monster.getHealth());
 				}
