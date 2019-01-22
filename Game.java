@@ -480,16 +480,14 @@ public class Game {
 				if (key == null){
 					for (int i = 0; i < enemiesal.size(); i += 2){
 						if (x == enemiesal.get(i).getX()){
-							if (y == enemiesal.get(i).getY()){
+							if (y == enemiesal.get(i).getY() -1){
 								mode = 1;
 								firsttimeagain = true;
 								attackanymore = true;
 								ik = i;
 								temp = true;
-								if (enemiesal.get(i).isChest() || enemiesal.get(i).isItem()) {
-									isChest = enemiesal.get(i).isChest();
-									isItem = enemiesal.get(i).isItem();
-								}
+								isChest = enemiesal.get(i).isChest();
+								isItem = enemiesal.get(i).isItem();
 								i = enemiesal.size();
 								
 							}
