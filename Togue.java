@@ -1,7 +1,7 @@
 import java.util.Random;
 public class Togue {
   private Player player;
-  private int floor;
+  private static int floor;
   
   public Togue() {
 	  player = new Player();

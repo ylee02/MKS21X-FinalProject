@@ -9,7 +9,7 @@ public class Monster extends Entity implements Alive{
   private String name;
   private Item it;
 
-  public Monster();
+  public Monster() {}
   public Monster(int type, int x, int y){
     this.type = type;
     this.setX(x);

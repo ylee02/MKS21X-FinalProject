@@ -191,8 +191,8 @@ public class Game {
 		boolean attackanymore = true;
 		
 		//interaction with drops and chests
-		boolean isChest;
-		boolean isItem;
+		boolean isChest = false;
+		boolean isItem = false;
 
 		//your luck
 		double luck;
