@@ -331,7 +331,7 @@ public class Game {
 						firsttime = true;
 						onlyonce = true;
 					}
-					if (! isItem || ! isChest) {
+					if (! isItem && ! isChest) {
 						//debugging purposes only
 						
 						int enemyattack = 0;
