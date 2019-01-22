@@ -92,7 +92,7 @@ public class Monster extends Entity implements Alive{
     return gold;
   }
 
-  public String getType(){
+  public int getType(){
     return type;
   }
 
