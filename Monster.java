@@ -44,7 +44,7 @@ public class Monster extends Entity implements Alive{
       setStrength(0);
       chest = true;
     }
-	if (type.equals("Item") {
+	if (type.equals("Item")) {
 		setHealth(1);
 		setStrength(0);
 		item = true;
