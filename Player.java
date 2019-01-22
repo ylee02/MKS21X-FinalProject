@@ -46,6 +46,7 @@ public class Player extends Entity implements Alive {
     level += 1;
     health += randgen.nextInt() % 2;
     strength += randgen.nextInt() % 2;
+    xp = 0;
   }
 
   public void die(){
