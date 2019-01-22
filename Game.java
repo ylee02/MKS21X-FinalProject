@@ -374,7 +374,6 @@ public class Game {
 						putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + monster.getHealth());
 					}
 				}
-<<<<<<< HEAD
 				if (player.getHealth() <= 0){
 					mode = 2;
 				}
@@ -387,34 +386,6 @@ public class Game {
 					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + 0 + "          ");
 					terminal.applyForegroundColor(Terminal.Color.WHITE);
 					putString(0, rows, terminal, "You killed the enemy! Press 4 to exit to map.");
-=======
-			}
-			if (!status.equals("")){
-				putString(0, rows - 5, terminal, status.substring(0, status.length() - 1));
-				if (!(status.charAt(status.length() - 1) == '1')){
-					//putString(0, rows, terminal, "Press 4 to exit");
-				}
-				if (status.charAt(status.length() - 1) == '2'){
-					if (! randgen.nextInt(100) < Math.ceil((Math.pow(1.01, luck) - 1) * 100)) {
-						player.setHealth(player.getHealth() - (monster.getStrength() - player.getCons()));
-						putString(columns / 3, (rows / 3) + 1, terminal, "Attack: "  + player.getStrength());
-						putString(columns / 3, (rows / 3) + 2, terminal, "Health: "  + player.getHealth());
-					}
-					else {
-						//something like "you dodged" here;;
-					}
-						
-				}
-				if (status.charAt(status.length() - 1) == '3'){
-					int crit = 0;
-					double luck = player.getLuck()
-					if (randgen.nextInt(100) < Math.ceil((Math.pow(1.01, luck) - 1) * 100)) {
-						crit = player.getStrength * 0.5
-					}
-					monster.setHealth(monster.getHealth() - (player.getStrength() + crit);
-					putString(2 * columns / 3, (rows / 3) + 1, terminal, "Attack: " + monster.getStrength());
-					putString(2 * columns / 3, (rows / 3) + 2, terminal, "Health: " + monster.getHealth());
->>>>>>> 0d58ebb581ed4daf30905bb7863a0a1e815784e8
 				}
 			}
 			if (mode == 0){
