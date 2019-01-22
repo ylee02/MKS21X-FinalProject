@@ -485,11 +485,12 @@ public class Game {
 								attackanymore = true;
 								ik = i;
 								temp = true;
-								i = enemiesal.size();
 								if (enemiesal.get(i).isChest() || enemiesal.get(i).isItem()) {
 									isChest = enemiesal.get(i).isChest();
 									isItem = enemiesal.get(i).isItem();
 								}
+								i = enemiesal.size();
+								
 							}
 						}
 					}
