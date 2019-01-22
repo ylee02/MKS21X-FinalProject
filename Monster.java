@@ -20,8 +20,9 @@ public class Monster extends Entity implements Alive{
 	this.type = type;
 	this.setX(x);
 	this.setY(y);
-	setMStats();
+
 	it = newItem;
+	setMStats();
   }
 	
   public void setMStats() {
