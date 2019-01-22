@@ -30,7 +30,7 @@ YL: Initial commit
 
 Worked on the backend of the project (making class structures)
 
-YL: Created Togue, Entity, Player, Box classes
+YL: Created Togue, Entity, Player, Box classes<br>
 MZ: Created Alive interface, Monster class
 
 01-05-19
@@ -39,67 +39,67 @@ Took a break day
 
 01-06-19
 
-YL: Worked more on the backend, adding functions to Item, Drop, Monster classes
+YL: Worked more on the backend, adding functions to Item, Drop, Monster classes<br>
 MZ: Made a Test Branch to start playing around/experimenting with Lanterna
 
 01-07-19
 
-YL: Fixed bugs with the Monster and Togue classes, renamed files to capitalize them
+YL: Fixed bugs with the Monster and Togue classes, renamed files to capitalize them<br>
 MZ: Worked more with Lanterna, trying to learn how to use it thoroughly
 
 01-08-19
 
-YL: Started working on the placement of entities on the map and generating items dropped by monsters
+YL: Started working on the placement of entities on the map and generating items dropped by monsters<br>
 MZ: Started working on generating the rooms, walls, and the player using Lanterna
 
 01-09-19
 
-YL: Fixed more bugs with the backend of the project
+YL: Fixed more bugs with the backend of the project<br>
 MZ: Added basic player movement and room progression
 
 01-10-19
 
-YL: Added player interactions to items, chests, and weapons.
+YL: Added player interactions to items, chests, and weapons.<br>
 MZ: Finalized player movement and room progression to make it work smoothly. Merged Test Branch with Master Branch.
 
 01-11-19
 
-YL: Created different types of enemies that can generate, along with their stats and IDs.
+YL: Created different types of enemies that can generate, along with their stats and IDs.<br>
 MZ: Added seed generation to rooms in order to allow the player to go backwards to a room they've previously been in.
 
 01-12-19
 
-YL: Added more types of enemies; Updated game's user interface to display the player's stats.
+YL: Added more types of enemies; Updated game's user interface to display the player's stats.<br>
 MZ: Added enemy generation and the ability to generate different types of enemies.
 
 01-13-19
 
-YL: Fixed bugs with variable declarations in the Player, Drop, and Togue classes.
+YL: Fixed bugs with variable declarations in the Player, Drop, and Togue classes.<br>
 MZ: Fixed bugs relating to seet integration, loot generation and made the User Interface more user friendly.
 
 01-14-19
 
-YL: Added stair interactions and the ability to progress through different floors
+YL: Added stair interactions and the ability to progress through different floors<br>
 MZ: Added combat screen and the ability to get into combat
 
 01-15-19
 
-YL: Fixed more bugs on staircases and finished making working staircases.
+YL: Fixed more bugs on staircases and finished making working staircases.<br>
 MZ: Finished basic combat and fixed bugs regarding combat
 
 01-16-19
 
-YL: Added visual effects to the combat screen
+YL: Added visual effects to the combat screen<br>
 MZ: Fixed file issues and deleted class files
 
 01-17-19
 
-YL: Took a break day
+YL: Took a break day<br>
 MZ: Updated Player and Monster classes as well as combat status messages
 
 01-18-19
 
-YL: Added stat bonuses for when your character levels up
+YL: Added stat bonuses for when your character levels up<br>
 MZ: Updated player to have experience points, renamed files to fit updated UML diagram
 
 01-19-19
@@ -108,9 +108,9 @@ Took a break day to work on other projects
 
 01-20-19
 
-YL: Added critical hit effects, armor damage mitigation, and dodging
+YL: Added critical hit effects, armor damage mitigation, and dodging<br>
 MZ: Added sh scripts to help run project (scrapped); Updated imports in Player class
 
 01-21-19
-YL: Updated monster generation and loot dropping
+YL: Updated monster generation and loot dropping<br>
 MZ: Polished combat to be smoother and more elegant; Created a starting screen menu
