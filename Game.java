@@ -86,7 +86,7 @@ public class Game {
 			terminal.moveCursor(enemyx,enemyy);
 			int mobs = 0;
 			if (Togue.getFloor() < 5) {
-				mobs = floor;
+				mobs = Togue.getFloor();
 			}else {
 				mobs = 5;
 			}
@@ -117,7 +117,7 @@ public class Game {
 		//Initializing classes
 		Togue game = new Togue();
 		Player player = game.getPlayer();
-		Monster monster;
+		Monster monster = new Monster();
 
 		//used to calculate staircase/boss generation, switching screens, etc.
 		int roomsBeenIn;

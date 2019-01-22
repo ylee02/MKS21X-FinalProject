@@ -8,6 +8,7 @@ public class Monster extends Entity implements Alive{
   private char letter;
   private String name;
 
+  public Monster(){}
   public Monster(int type, int x, int y){
     this.type = type;
     this.setX(x);

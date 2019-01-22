@@ -8,7 +8,7 @@ public class Togue {
 	  floor = 1;
   }
   
-  public int getFloor() {
+  public static int getFloor() {
 	  return floor;
   }
   
