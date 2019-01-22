@@ -3,7 +3,8 @@ public class Monster extends Entity implements Alive{
   private int gold;
   private int health;
   private int strength;
-  private boolean chest;
+  private boolean chest = false;;
+  private boolean item = false;
 
   public Monster(String type, int x, int y){
     this.type = type;
@@ -43,6 +44,11 @@ public class Monster extends Entity implements Alive{
       setStrength(0);
       chest = true;
     }
+	if (type.equals("Item") {
+		setHealth(1);
+		setStrength(0);
+		item = true;
+	}
 
   }
 

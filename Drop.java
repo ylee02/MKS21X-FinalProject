@@ -1,4 +1,4 @@
-public class Drop extends Entity {
+public class Drop extends Monster {
   private Item item;
   public Drop(int nx, int ny, Item newItem) {
     this.setX(nx);
